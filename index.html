@@ -336,7 +336,7 @@ async function analyze(bytes) {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 400,
       system: 'Analyzujes PDF cenove ponuky. Odpovedaj VYHRADNE validnym JSON objektom bez akehokolvek ineho textu.',
       messages: [{role:'user', content:[
@@ -364,7 +364,7 @@ async function genEmail(name, analyses) {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 600,
       messages: [{role:'user', content:
         `Napis kratky profesionalny email v slovencine pre zakaznika${name?' '+name:''}.
