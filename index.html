@@ -343,10 +343,10 @@ async function analyze(bytes) {
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 400,
-      system: 'Analyzujes PDF cenove ponuky. Odpovedaj VYHRADNE validnym JSON objektom bez akehokolvek ineho textu.',
+      system: 'Si expert na analyzu PDF cenovych ponuk. Odpovedaj VYHRADNE platnym JSON objektom, bez textu pred ani za nim, bez markdown.',
       messages: [{role:'user', content:[
         {type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}},
-        {type:'text', text:'Extrahuj z tohto PDF: produkt (kratky nazov vyrobku, max 50 znakov), ks (pocet kusov ako cislo), cena_bez_dph (cislo EUR), cena_s_dph (cislo EUR). Vrat iba: {"produkt":"...","ks":N,"cena_bez_dph":X,"cena_s_dph":Y}'}
+        {type:'text', text:'V tomto PDF najdi: 1) nazov produktu (napr. EXT 16, Posuvne siete, IDX domykac), 2) celkovy pocet kusov (cislo pri "Pocet"), 3) "Cena spolu bez DPH" alebo "Cena bez DPH" (EUR), 4) "Cena spolu s DPH" alebo "Cena s DPH" (EUR). Vrat JEDINE toto JSON bez ineho textu: {"produkt":"...","ks":N,"cena_bez_dph":X,"cena_s_dph":Y}'}
       ]}]
     })
   });
@@ -372,17 +372,7 @@ async function genEmail(name, analyses) {
       model: 'claude-sonnet-4-6',
       max_tokens: 600,
       messages: [{role:'user', content:
-        `Napis kratky profesionalny email v slovencine pre zakaznika${name?' '+name:''}.
-
-Odosielatel: Only servis, s.r.o., Lermontovova 911/3, 811 05 Bratislava
-Kontakt: Machala Roman, 0903 533 534, info@climaxsk.sk
-
-Produkty v prilohach:
-${lines}
-
-Celkova suma: ${total.toFixed(2)} EUR s DPH
-
-Napis priatelsky ale profesionalny email v 3-4 vetach. Spomen ze v prilohach su cenove ponuky, celkovu sumu a kontakt pre otazky. Zacni oslovenim zakaznika.`
+        'Napis kratky profesionalny email v slovencine pre zakaznika'+(name?' '+name:'')+'. BEZ markdown formatovania, BEZ hviezdickou, BEZ tucneho textu - iba plain text.\n\nOdosielatel: Only servis, s.r.o., Lermontovova 911/3, 811 05 Bratislava\nKontakt: Machala Roman, 0903 533 534, info@climaxsk.sk\n\nProdukty v prilohach:\n'+lines+'\n\nCelkova suma: '+total.toFixed(2)+' EUR s DPH\n\nNapis priatelsky ale profesionalny email v 3-4 vetach. Spomen ze v prilohach su cenove ponuky, celkovu sumu a kontakt pre otazky. Zacni oslovenim zakaznika. Pis plain text bez akychkolvek markdown znakov.'
       }]
     })
   });
@@ -448,13 +438,24 @@ async function sendMail(to, subject, body, atts) {
   // Base64url encode the full MIME message
   const raw = b64bytes(merged).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 
-  const rsp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{
-    method: 'POST',
-    headers: {Authorization: 'Bearer '+S.token, 'Content-Type': 'application/json'},
-    body: JSON.stringify({raw})
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  let rsp;
+  try {
+    rsp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{
+      method: 'POST',
+      headers: {Authorization: 'Bearer '+S.token, 'Content-Type': 'application/json'},
+      body: JSON.stringify({raw}),
+      signal: controller.signal
+    });
+  } catch(err) {
+    clearTimeout(timeout);
+    if (err.name === 'AbortError') throw new Error('Gmail: timeout — email je prilis velky. Skuste mensie PDF.');
+    throw err;
+  }
+  clearTimeout(timeout);
   if (!rsp.ok) {
-    const e = await rsp.json();
+    const e = await rsp.json().catch(()=>({}));
     throw new Error('Gmail: '+(e.error?.message||rsp.status));
   }
 }
