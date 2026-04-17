@@ -328,26 +328,44 @@ async function addLogo(bytes) {
 }
 
 // ─────────────────────────────────────────────
-// CLAUDE API: ANALYZE PDF
+// EXTRACT TEXT FROM PDF (client-side, no upload needed)
+// ─────────────────────────────────────────────
+async function extractPdfText(bytes) {
+  // Use pdf-lib to get page count, then extract text via PDF.js-like approach
+  // Actually parse raw PDF bytes for text streams - simple but effective
+  const str = new TextDecoder('latin1').decode(bytes);
+  // Extract text between BT/ET markers (PDF text objects)
+  const texts = [];
+  const btEt = /BT[\s\S]*?ET/g;
+  let m;
+  while ((m = btEt.exec(str)) !== null) {
+    const block = m[0];
+    // Extract strings in parentheses
+    const parens = /\(([^)]{1,200})\)/g;
+    let p;
+    while ((p = parens.exec(block)) !== null) {
+      const t = p[1].replace(/\n/g,' ').replace(/\r/g,' ').trim();
+      if (t.length > 1) texts.push(t);
+    }
+  }
+  return texts.join(' ').substring(0, 4000);
+}
+
+// ─────────────────────────────────────────────
+// CLAUDE API: ANALYZE PDF (sends text only, not binary)
 // ─────────────────────────────────────────────
 async function analyze(bytes) {
-  // btoa with spread operator crashes on large files — use chunked approach
-  let b64 = '';
-  const chunkSize = 8192;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    b64 += btoa(String.fromCharCode(...bytes.subarray(i, i + chunkSize)));
-  }
+  const pdfText = await extractPdfText(bytes);
   const r = await fetch('/.netlify/functions/claude', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 400,
-      system: 'Si expert na analyzu PDF cenovych ponuk. Odpovedaj VYHRADNE platnym JSON objektom, bez textu pred ani za nim, bez markdown.',
-      messages: [{role:'user', content:[
-        {type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}},
-        {type:'text', text:'V tomto PDF najdi: 1) nazov produktu (napr. EXT 16, Posuvne siete, IDX domykac), 2) celkovy pocet kusov (cislo pri "Pocet"), 3) "Cena spolu bez DPH" alebo "Cena bez DPH" (EUR), 4) "Cena spolu s DPH" alebo "Cena s DPH" (EUR). Vrat JEDINE toto JSON bez ineho textu: {"produkt":"...","ks":N,"cena_bez_dph":X,"cena_s_dph":Y}'}
-      ]}]
+      system: 'Si expert na analyzu cenovych ponuk. Odpovedaj VYHRADNE platnym JSON objektom, bez textu pred ani za nim, bez markdown.',
+      messages: [{role:'user', content:
+        'Z tohto textu cenovej ponuky extrahuj: 1) nazov produktu (napr. EXT 16, Posuvne siete v listach, IDX domykac), 2) pocet kusov (cislo pri texte "Pocet"), 3) cenu bez DPH (EUR, hladaj "Cena spolu bez DPH" alebo "Cena bez DPH"), 4) cenu s DPH (EUR, hladaj "Cena spolu s DPH" alebo "Cena s DPH"). Vrat JEDINE: {"produkt":"...","ks":N,"cena_bez_dph":X,"cena_s_dph":Y}\n\nTEXT PONUKY:\n'+pdfText
+      }]
     })
   });
   if (!r.ok) throw new Error('Claude API: '+r.status);
