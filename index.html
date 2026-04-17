@@ -356,6 +356,7 @@ async function extractPdfText(bytes) {
 // ─────────────────────────────────────────────
 async function analyze(bytes) {
   const pdfText = await extractPdfText(bytes);
+  console.log('PDF TEXT EXTRACTED:', pdfText.substring(0,500));
   const r = await fetch('/.netlify/functions/claude', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
