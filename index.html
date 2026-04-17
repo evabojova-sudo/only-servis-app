@@ -331,7 +331,12 @@ async function addLogo(bytes) {
 // CLAUDE API: ANALYZE PDF
 // ─────────────────────────────────────────────
 async function analyze(bytes) {
-  const b64 = btoa(String.fromCharCode(...bytes));
+  // btoa with spread operator crashes on large files — use chunked approach
+  let b64 = '';
+  const chunkSize = 8192;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    b64 += btoa(String.fromCharCode(...bytes.subarray(i, i + chunkSize)));
+  }
   const r = await fetch('/.netlify/functions/claude', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -412,7 +417,7 @@ async function sendMail(to, subject, body, atts) {
       'Content-Disposition: attachment; filename="'+a.name+'"',
       'Content-Transfer-Encoding: base64',
       '',
-      btoa(String.fromCharCode(...a.bytes)),
+      (() => { let s=''; const b=a.bytes; for(let i=0;i<b.length;i+=8192) s+=btoa(String.fromCharCode(...b.subarray(i,i+8192))); return s; })(),
     ]);
   }
   lines.push('--'+bnd+'--');
