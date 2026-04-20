@@ -13,47 +13,8 @@ module.exports = async function (req, res) {
 
   // --- AKCIA: Pridanie loga do PDF ---
   if (action === "addLogo") {
-    try {
-      const results = [];
-      const logoBytes = Buffer.from(LOGO_BASE64, "base64");
-
-      for (const pdfB64 of pdfs) {
-        const pdfBytes = Buffer.from(pdfB64, "base64");
-        const srcDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
-
-        // Vytvorime nove PDF - toto obide zaheslovanie
-        const newDoc = await PDFDocument.create();
-        const pageCount = srcDoc.getPageCount();
-        const pageIndices = Array.from({ length: pageCount }, (_, i) => i);
-        const copiedPages = await newDoc.copyPages(srcDoc, pageIndices);
-        copiedPages.forEach(page => newDoc.addPage(page));
-
-        // Vlozime logo do noveho PDF
-        const logoImage = await newDoc.embedJpg(logoBytes);
-        const pagesToStamp = Math.min(3, pageCount);
-
-        for (let i = 0; i < pagesToStamp; i++) {
-          const page = newDoc.getPage(i);
-          const { width, height } = page.getSize();
-          const logoW = 70;
-          const logoH = (logoImage.height / logoImage.width) * logoW;
-          page.drawImage(logoImage, {
-            x: 20,
-            y: height - logoH - 20,
-            width: logoW,
-            height: logoH,
-            opacity: 1.0,
-          });
-        }
-
-        const modifiedBytes = await newDoc.save();
-        results.push(Buffer.from(modifiedBytes).toString("base64"));
-      }
-
-      return res.status(200).json({ pdfsWithLogo: results });
-    } catch (err) {
-      return res.status(500).json({ error: "Chyba pri vkladaní loga: " + err.message });
-    }
+    // Logo sa pridava manualne - vratime PDF nezmenene
+    return res.status(200).json({ pdfsWithLogo: pdfs });
   }
 
   // --- AKCIA: Analýza PDF cez Claude Vision ---
