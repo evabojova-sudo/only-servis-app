@@ -28,14 +28,14 @@ module.exports = async function (req, res) {
         for (let i = 0; i < pagesToStamp; i++) {
           const page = pages[i];
           const { width, height } = page.getSize();
-          const logoW = 80;
+          const logoW = 70;
           const logoH = (logoImage.height / logoImage.width) * logoW;
           page.drawImage(logoImage, {
-            x: width - logoW - 20,
-            y: height - logoH - 15,
+            x: 20, // lavý okraj
+            y: height - logoH - 20,
             width: logoW,
             height: logoH,
-            opacity: 0.85,
+            opacity: 1.0,
           });
         }
 
