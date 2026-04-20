@@ -52,55 +52,21 @@ module.exports = async function (req, res) {
   // --- AKCIA: Analýza PDF cez Claude Vision ---
   if (action === "analyze") {
     try {
-      const content = [];
-
-      content.push({
-        type: "text",
-        text: `Analyzuj tieto cenové ponuky od firmy Climax. Pre každé PDF vráť JSON objekt s týmito poľami:
-- nazov_produktu: názov produktu (napr. "Z-90 Noval", "EXT 16")
-- pocet_ks: celkový počet kusov (číslo)
-- cena_bez_dph: celková cena bez DPH v EUR (číslo)
-- cena_s_dph: celková cena s DPH v EUR (číslo)
-- zlava_percent: zľava v % ak je uvedená (číslo alebo null)
-
-Použi hodnoty z riadku "Cena spolu bez DPH" a "Cena spolu s DPH".
-Vrát POLE JSON objektov - jeden objekt za každé PDF v poradí ako sú priložené.
-Vráť IBA validné JSON pole, nič iné, žiadny markdown, žiadne \`\`\`.`
-      });
-
+      const analyzed = [];
       for (let i = 0; i < pdfs.length; i++) {
-        content.push({
-          type: "document",
-          source: {
-            type: "base64",
-            media_type: "application/pdf",
-            data: pdfs[i],
-          },
+        const singleContent = [
+          { type: "text", text: `Analyzuj tuto cenovu ponuku od Climax. Vrat JSON objekt: nazov_produktu, pocet_ks, cena_bez_dph, cena_s_dph, zlava_percent. Pouzi "Cena spolu bez DPH" a "Cena spolu s DPH". Len JSON, bez markdown.` },
+          { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdfs[i] } }
+        ];
+        const resp = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "anthropic-beta": "pdfs-2024-09-25" },
+          body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 512, messages: [{ role: "user", content: singleContent }] }),
         });
+        const d = await resp.json();
+        if (!resp.ok) return res.status(500).json({ error: "Claude API chyba: " + JSON.stringify(d) });
+        analyzed.push(JSON.parse(d.content[0].text.trim()));
       }
-
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01",
-          "anthropic-beta": "pdfs-2024-09-25",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 1024,
-          messages: [{ role: "user", content }],
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        return res.status(500).json({ error: "Claude API chyba: " + JSON.stringify(data) });
-      }
-
-      const rawText = data.content[0].text.trim();
-      const analyzed = JSON.parse(rawText);
 
       const celkovaBezDph = analyzed.reduce((sum, p) => sum + (p.cena_bez_dph || 0), 0);
       const celkovaSdph = analyzed.reduce((sum, p) => sum + (p.cena_s_dph || 0), 0);
