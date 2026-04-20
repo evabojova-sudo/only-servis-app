@@ -19,7 +19,7 @@ module.exports = async function (req, res) {
 
       for (const pdfB64 of pdfs) {
         const pdfBytes = Buffer.from(pdfB64, "base64");
-        const pdfDoc = await PDFDocument.load(pdfBytes);
+        const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
         const logoImage = await pdfDoc.embedJpg(logoBytes);
 
         const pages = pdfDoc.getPages();
