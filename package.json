@@ -1,0 +1,8 @@
+{
+  "name": "only-servis-v2",
+  "version": "2.0.0",
+  "description": "Only Servis - automatizacia odosielania cenových ponúk",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}
