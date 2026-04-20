@@ -39,7 +39,8 @@ module.exports = async function (req, res) {
           });
         }
 
-        const modifiedBytes = await pdfDoc.save();
+        pdfDoc.encrypt({});
+        const modifiedBytes = await pdfDoc.save({ useObjectStreams: false });
         results.push(Buffer.from(modifiedBytes).toString("base64"));
       }
 
