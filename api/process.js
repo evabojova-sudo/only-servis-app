@@ -25,7 +25,7 @@ module.exports = async function (req, res) {
         const newDoc = await PDFDocument.create();
         const pageCount = srcDoc.getPageCount();
         const pageIndices = Array.from({ length: pageCount }, (_, i) => i);
-        const copiedPages = await newDoc.copyPagesFrom(srcDoc, pageIndices);
+        const copiedPages = await newDoc.copyPages(srcDoc, pageIndices);
         copiedPages.forEach(page => newDoc.addPage(page));
 
         // Vlozime logo do noveho PDF
