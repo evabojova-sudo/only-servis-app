@@ -1,5 +1,10 @@
 {
   "rewrites": [
     { "source": "/.netlify/functions/process", "destination": "/api/process" }
-  ]
+  ],
+  "functions": {
+    "api/process.js": {
+      "maxDuration": 60
+    }
+  }
 }
