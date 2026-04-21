@@ -22,9 +22,26 @@ module.exports = async function (req, res) {
     try {
       const analyzed = [];
       for (let i = 0; i < pdfs.length; i++) {
+        // Pouzijeme len prve 2 strany PDF - obsahuju vsetky ceny
+        // Extrakt prvych 2 stran pomocou pdf-lib pred poslanim na Claude
+        let pdfData = pdfs[i];
+        try {
+          const srcBytes = Buffer.from(pdfs[i], "base64");
+          const srcDoc = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
+          const smallDoc = await PDFDocument.create();
+          const pageCount = Math.min(2, srcDoc.getPageCount());
+          const pages = await smallDoc.copyPages(srcDoc, Array.from({length: pageCount}, (_, k) => k));
+          pages.forEach(p => smallDoc.addPage(p));
+          const smallBytes = await smallDoc.save();
+          pdfData = Buffer.from(smallBytes).toString("base64");
+        } catch(e) {
+          // ak sa nepodari, posleme cely pdf
+          pdfData = pdfs[i];
+        }
+
         const singleContent = [
           { type: "text", text: `Analyzuj tuto cenovu ponuku od Climax. Vrat JSON objekt: nazov_produktu, pocet_ks, cena_bez_dph, cena_s_dph, zlava_percent. Pouzi "Cena spolu bez DPH" a "Cena spolu s DPH". Len JSON, bez markdown.` },
-          { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdfs[i] } }
+          { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdfData } }
         ];
         const resp = await fetch("https://api.anthropic.com/v1/messages", {
           method: "POST",
