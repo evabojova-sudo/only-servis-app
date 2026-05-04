@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>only servis s.r.o. — Cenové ponuky</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f0f3fa;
+    color: #222;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: #1B3A8C;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header img { height: 40px; }
+  .header-firma { color: white; font-size: 18px; font-weight: bold; }
+  .header-sub { color: #b0c0e8; font-size: 13px; margin-top: 2px; }
+
+  /* MAIN */
+  .main { max-width: 720px; margin: 40px auto; padding: 0 16px; }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(27,58,140,0.10);
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  h2 { font-size: 20px; color: #1B3A8C; margin-bottom: 20px; }
+
+  /* DROP ZONE */
+  .dropzone {
+    border: 2.5px dashed #1B3A8C;
+    border-radius: 8px;
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: #555;
+  }
+  .dropzone:hover, .dropzone.over { background: #eef1fb; }
+  .dropzone svg { display: block; margin: 0 auto 12px; opacity: 0.4; }
+  .dropzone p { font-size: 15px; }
+  .dropzone span { font-size: 13px; color: #999; }
+  #file-input { display: none; }
+
+  /* FILE LIST */
+  .file-list { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f4f6fb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .file-item .fname { flex: 1; color: #1B3A8C; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-item .remove { cursor: pointer; color: #aaa; font-size: 18px; line-height: 1; }
+  .file-item .remove:hover { color: #c00; }
+
+  /* EMAIL */
+  label { display: block; font-size: 14px; color: #555; margin-bottom: 6px; margin-top: 20px; }
+  input[type="email"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #ccd3e8;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="email"]:focus { border-color: #1B3A8C; }
+
+  /* BUTTON */
+  .btn {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 13px;
+    background: #1B3A8C;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn:hover:not(:disabled) { background: #14296a; }
+  .btn:disabled { background: #8a9fc0; cursor: not-allowed; }
+
+  /* PROGRESS */
+  .progress-wrap { margin-top: 20px; display: none; }
+  .progress-bar-bg {
+    background: #e0e6f0;
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: #FFD700;
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.4s;
+  }
+  .progress-status { font-size: 14px; color: #555; text-align: center; }
+
+  /* RESULTS */
+  .results { display: none; flex-direction: column; gap: 16px; }
+
+  .result-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(27,58,140,0.10);
+    overflow: hidden;
+  }
+  .result-header {
+    background: #1B3A8C;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .result-header .cislo { font-weight: bold; font-size: 15px; }
+  .result-header .badge {
+    background: #FFD700;
+    color: #1B3A8C;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+  .result-body { padding: 16px 20px; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .info-row { display: flex; flex-direction: column; }
+  .info-label { color: #999; font-size: 12px; }
+  .info-val { color: #222; font-weight: bold; }
+
+  .result-actions { display: flex; gap: 10px; }
+  .btn-download {
+    flex: 1;
+    padding: 10px;
+    background: #FFD700;
+    color: #1B3A8C;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .btn-download:hover { background: #e6c600; }
+
+  .email-status {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .email-ok { background: #e6f4ea; color: #2a7a3b; }
+  .email-no { background: #f4f4f4; color: #999; }
+
+  .error-msg {
+    background: #fde8e8;
+    color: #c00;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-firma">only servis s.r.o.</div>
+    <div class="header-sub">Generátor cenových ponúk</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="card">
+    <h2>Nahrať PDF ponuku Climax</h2>
+
+    <div class="dropzone" id="dropzone">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1B3A8C" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <polyline points="9 15 12 12 15 15"/>
+      </svg>
+      <p>Pretiahnite PDF súbory sem</p>
+      <span>alebo kliknite pre výber súborov</span>
+    </div>
+    <input type="file" id="file-input" accept=".pdf" multiple>
+
+    <div class="file-list" id="file-list"></div>
+
+    <label for="email">Email zákazníka (voliteľné)</label>
+    <input type="email" id="email" placeholder="zakaznik@email.sk">
+
+    <button class="btn" id="process-btn" disabled>Spracovať ponuky</button>
+
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="progress-status" id="progress-status">Pripravujem...</div>
+    </div>
+  </div>
+
+  <div class="results" id="results"></div>
+</div>
+
+<script>
+  const API_URL = "http://localhost:8000";
+
+  let files = [];
+
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("file-input");
+  const fileList = document.getElementById("file-list");
+  const processBtn = document.getElementById("process-btn");
+  const progressWrap = document.getElementById("progress-wrap");
+  const progressBar = document.getElementById("progress-bar");
+  const progressStatus = document.getElementById("progress-status");
+  const resultsEl = document.getElementById("results");
+
+  dropzone.addEventListener("click", () => fileInput.click());
+  dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("over"); });
+  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("over"));
+  dropzone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropzone.classList.remove("over");
+    addFiles([...e.dataTransfer.files].filter(f => f.name.endsWith(".pdf")));
+  });
+  fileInput.addEventListener("change", () => {
+    addFiles([...fileInput.files]);
+    fileInput.value = "";
+  });
+
+  function addFiles(newFiles) {
+    newFiles.forEach(f => {
+      if (!files.find(x => x.name === f.name)) files.push(f);
+    });
+    renderFileList();
+  }
+
+  function renderFileList() {
+    fileList.innerHTML = "";
+    files.forEach((f, i) => {
+      const div = document.createElement("div");
+      div.className = "file-item";
+      div.innerHTML = `<span class="fname">📄 ${f.name}</span><span class="remove" data-i="${i}">×</span>`;
+      fileList.appendChild(div);
+    });
+    fileList.querySelectorAll(".remove").forEach(el => {
+      el.addEventListener("click", () => { files.splice(+el.dataset.i, 1); renderFileList(); });
+    });
+    processBtn.disabled = files.length === 0;
+  }
+
+  processBtn.addEventListener("click", processAll);
+
+  async function processAll() {
+    const email = document.getElementById("email").value.trim();
+    processBtn.disabled = true;
+    resultsEl.innerHTML = "";
+    resultsEl.style.display = "flex";
+    progressWrap.style.display = "block";
+
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      const pct = Math.round((i / files.length) * 100);
+      progressBar.style.width = pct + "%";
+      progressStatus.textContent = `Spracúvam ${i + 1} / ${files.length}: ${f.name}`;
+
+      const resultItem = document.createElement("div");
+      resultItem.className = "result-item";
+      resultItem.innerHTML = `<div class="result-header"><span class="cislo">⏳ ${f.name}</span></div>`;
+      resultsEl.appendChild(resultItem);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", f);
+        if (email) formData.append("email_zakaznika", email);
+
+        const resp = await fetch(`${API_URL}/process`, { method: "POST", body: formData });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        const ext = data.extrahovane;
+        const emailBadge = data.email_odoslany
+          ? `<div class="email-status email-ok">✓ Email odoslaný</div>`
+          : `<div class="email-status email-no">Email neodoslaný</div>`;
+
+        resultItem.innerHTML = `
+          <div class="result-header">
+            <span class="cislo">${ext.cislo_ponuky || f.name}</span>
+            <span class="badge">Hotovo</span>
+          </div>
+          <div class="result-body">
+            <div class="info-grid">
+              <div class="info-row"><span class="info-label">Zákazník</span><span class="info-val">${ext.zakaznik_meno || "—"}</span></div>
+              <div class="info-row"><span class="info-label">Mesto</span><span class="info-val">${ext.zakaznik_mesto || "—"}</span></div>
+              <div class="info-row"><span class="info-label">Produkt</span><span class="info-val">${ext.typ_produktu || "—"}</span></div>
+              <div class="info-row"><span class="info-label">Dátum</span><span class="info-val">${ext.datum_ponuky || "—"}</span></div>
+              <div class="info-row"><span class="info-label">Cena bez DPH</span><span class="info-val">${ext.cena_bez_dph ? ext.cena_bez_dph.toFixed(2) + " €" : "—"}</span></div>
+              <div class="info-row"><span class="info-label">Cena s DPH</span><span class="info-val">${ext.cena_s_dph ? ext.cena_s_dph.toFixed(2) + " €" : "—"}</span></div>
+            </div>
+            <div class="result-actions">
+              <a class="btn-download" href="data:application/pdf;base64,${data.pdf_base64}" download="${data.pdf_filename}">⬇ Stiahnuť ponuku PDF</a>
+              ${emailBadge}
+            </div>
+          </div>`;
+      } catch (err) {
+        resultItem.innerHTML = `
+          <div class="result-header"><span class="cislo">❌ ${f.name}</span></div>
+          <div class="result-body"><div class="error-msg">Chyba: ${err.message}</div></div>`;
+      }
+    }
+
+    progressBar.style.width = "100%";
+    progressStatus.textContent = `Hotovo — spracovaných ${files.length} súborov`;
+    processBtn.disabled = false;
+  }
+</script>
+</body>
+</html>

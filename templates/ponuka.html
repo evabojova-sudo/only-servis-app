@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 15mm; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    color: #222;
+    line-height: 1.5;
+    margin: 0; padding: 0;
+  }
+
+  /* HLAVICKA */
+  .hdr { width: 100%; border-bottom: 3pt solid #1B3A8C; padding-bottom: 8pt; margin-bottom: 14pt; }
+  .hdr td { vertical-align: middle; padding: 0; }
+  .hdr img { height: 45pt; width: auto; }
+  .hdr-right { text-align: right; font-size: 11pt; color: #444; }
+  .hdr-firma { font-size: 13pt; font-weight: bold; color: #1B3A8C; }
+
+  /* NADPIS */
+  .nadpis { background-color: #1B3A8C; width: 100%; margin-bottom: 14pt; }
+  .nadpis td { color: white; padding: 9pt 13pt; vertical-align: middle; }
+  .nadpis-h1 { font-size: 20pt; font-weight: bold; margin: 0; }
+  .nadpis-meta { text-align: right; font-size: 11pt; }
+
+  /* ODBERATEL */
+  .odb { background-color: #f4f6fb; border-left: 4pt solid #FFD700; padding: 9pt 12pt; margin-bottom: 14pt; }
+  .odb-label { font-size: 10pt; color: #999; }
+  .odb-meno { font-size: 16pt; font-weight: bold; color: #1B3A8C; }
+  .odb-mesto { font-size: 13pt; color: #555; }
+
+  /* FOTO + PRODUKT */
+  .foto { width: 100%; max-height: 120pt; margin-bottom: 8pt; display: block; }
+  .prod-nazov { font-size: 16pt; font-weight: bold; color: #1B3A8C; margin-bottom: 5pt; }
+  .prod-popis { font-size: 11pt; color: #555; margin-bottom: 14pt; }
+
+  /* TABULKY */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12pt; }
+  .tbl-th { background-color: #1B3A8C; color: white; padding: 7pt 8pt;
+            text-align: left; font-size: 11pt; font-weight: bold; }
+  .tbl-th-r { background-color: #1B3A8C; color: white; padding: 7pt 8pt;
+              text-align: right; font-size: 11pt; font-weight: bold; }
+  .tbl-td { padding: 7pt 8pt; border-bottom: 1pt solid #e0e6f0; vertical-align: top; }
+  .tbl-td-r { padding: 7pt 8pt; border-bottom: 1pt solid #e0e6f0;
+              vertical-align: top; text-align: right; }
+  .tbl-td-rb { padding: 7pt 8pt; border-bottom: 1pt solid #e0e6f0;
+               vertical-align: top; text-align: right; font-weight: bold; }
+  .tbl-td-b { padding: 7pt 8pt; border-bottom: 1pt solid #e0e6f0;
+              vertical-align: top; font-weight: bold; }
+  .row-light { background-color: #f4f6fb; }
+  .row-white { background-color: #ffffff; }
+
+  /* NADPIS SEKCIE — ako prvy riadok tabulky */
+  .sek-row { background-color: #e8edf7; }
+  .sek-td { padding: 7pt 8pt; font-size: 13pt; font-weight: bold; color: #1B3A8C;
+            border-bottom: 2pt solid #1B3A8C; border-top: 6pt solid white; }
+
+  /* SUHRN */
+  .suhrn-wrap { width: 100%; margin-top: 14pt; }
+  .suhrn-left { width: 42%; vertical-align: top; padding: 0; }
+  .suhrn-right { width: 58%; vertical-align: top; padding: 0; }
+  .suhrn { width: 100%; border-collapse: collapse; border: 2pt solid #1B3A8C; }
+  .suhrn-td-lbl { padding: 7pt 12pt; border-bottom: 1pt solid #e0e6f0;
+                  font-size: 12pt; color: #555; }
+  .suhrn-td-val { padding: 7pt 12pt; border-bottom: 1pt solid #e0e6f0;
+                  font-size: 12pt; text-align: right; font-weight: bold; }
+  .suhrn-zv-lbl { background-color: #FFD700; padding: 9pt 12pt;
+                  font-size: 15pt; font-weight: bold; color: #1B3A8C; }
+  .suhrn-zv-val { background-color: #FFD700; padding: 9pt 12pt;
+                  font-size: 15pt; font-weight: bold; color: #1B3A8C; text-align: right; }
+
+  /* PATA */
+  .pata { width: 100%; margin-top: 16pt; border-top: 1pt solid #dde3f0; padding-top: 10pt; }
+  .pata-td { font-size: 11pt; color: #555; vertical-align: top; padding: 0; }
+  .pata-meno { font-size: 13pt; font-weight: bold; color: #1B3A8C; }
+  .pata-right { text-align: right; font-size: 11pt; color: #555; }
+</style>
+</head>
+<body>
+
+<!-- HLAVICKA -->
+<table class="hdr">
+  <tr>
+    <td><img src="{{ logo_path }}" alt="Only Servis"></td>
+    <td class="hdr-right">
+      <span class="hdr-firma">only servis s.r.o.</span><br>
+      Lermontovova 911/3, 811 05 Bratislava<br>
+      IČO: 55 639 461 &nbsp;|&nbsp; Tel: 0903 533 534<br>
+      info@climaxsk.sk
+    </td>
+  </tr>
+</table>
+
+<!-- NADPIS PONUKY -->
+<table class="nadpis">
+  <tr>
+    <td><div class="nadpis-h1">CENOVÁ PONUKA</div></td>
+    <td class="nadpis-meta">
+      Číslo: {{ cislo_ponuky }}<br>
+      Dátum: {{ datum_ponuky }}
+    </td>
+  </tr>
+</table>
+
+<!-- ODBERATEL -->
+<div class="odb">
+  <div class="odb-label">Odberateľ</div>
+  <div class="odb-meno">{{ zakaznik_meno }}</div>
+  <div class="odb-mesto">{{ zakaznik_mesto }}</div>
+</div>
+
+<!-- FOTO + NAZOV PRODUKTU -->
+{% if foto_path %}
+<img class="foto" src="{{ foto_path }}" alt="{{ slovensky_nazov }}">
+{% endif %}
+<div class="prod-nazov">{{ slovensky_nazov }}</div>
+<div class="prod-popis">{{ popis }}</div>
+
+<!-- TABULKA PRODUKTU -->
+<table class="tbl">
+  <tr>
+    <td class="tbl-th">Produkt</td>
+    <td class="tbl-th-r">Počet ks</td>
+    <td class="tbl-th-r">Rozmery</td>
+    <td class="tbl-th-r">Cena bez DPH</td>
+    <td class="tbl-th-r">Zľava</td>
+    <td class="tbl-th-r">Cena s DPH</td>
+  </tr>
+  <tr class="row-white">
+    <td class="tbl-td-b">{{ typ_produktu }}</td>
+    <td class="tbl-td-r">{{ pocet_ks }} ks</td>
+    <td class="tbl-td-r">{{ rozmery }}</td>
+    <td class="tbl-td-r">{{ cena_bez_dph_str }}</td>
+    <td class="tbl-td-r">{{ zlava_str }}</td>
+    <td class="tbl-td-rb">{{ cena_s_dph_str }}</td>
+  </tr>
+
+  <!-- PRIPLATKY — pokracovanie tej istej tabulky -->
+  {% if ma_priplatky %}
+  <tr class="sek-row">
+    <td class="sek-td" colspan="6">Príplatky a doplnkové služby</td>
+  </tr>
+  <tr>
+    <td class="tbl-th" colspan="5">Položka</td>
+    <td class="tbl-th-r">Suma</td>
+  </tr>
+  {% for p in priplatky %}
+  <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}">
+    <td class="tbl-td" colspan="5">{{ p.nazov }}</td>
+    <td class="tbl-td-r">{{ "%.2f"|format(p.suma) }} &euro;</td>
+  </tr>
+  {% endfor %}
+  {% endif %}
+</table>
+
+<!-- SUHRN -->
+<table class="suhrn-wrap">
+  <tr>
+    <td class="suhrn-left"></td>
+    <td class="suhrn-right">
+      <table class="suhrn">
+        <tr>
+          <td class="suhrn-td-lbl">Medzisúčet bez DPH</td>
+          <td class="suhrn-td-val">{{ suhrn_bez_dph_str }}</td>
+        </tr>
+        {% if priplatky_suma_str %}
+        <tr>
+          <td class="suhrn-td-lbl">Príplatky celkom</td>
+          <td class="suhrn-td-val">{{ priplatky_suma_str }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td class="suhrn-td-lbl">DPH {{ dph_percent }}%</td>
+          <td class="suhrn-td-val">{{ dph_suma_str }}</td>
+        </tr>
+        <tr>
+          <td class="suhrn-zv-lbl">CELKOVÁ CENA S DPH</td>
+          <td class="suhrn-zv-val">{{ cena_s_dph_celkom_str }}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- PATA -->
+<table class="pata">
+  <tr>
+    <td class="pata-td">
+      <div class="pata-meno">Machala Roman</div>
+      0903 533 534<br>
+      info@climaxsk.sk
+    </td>
+    <td class="pata-right">
+      Platnosť ponuky: <b>30 dní</b><br>
+      Termín dodania: <b>4–6 týždňov</b><br>
+      Záruka: <b>24 mesiacov</b>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
