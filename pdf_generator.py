@@ -1,31 +1,12 @@
-import glob as _glob
-import os
-import platform
-import shutil
-import tempfile
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
-from playwright.sync_api import sync_playwright
+from weasyprint import HTML
 
 BASE_DIR = Path(__file__).parent
 TEMPLATES_DIR = BASE_DIR / "templates"
 STATIC_DIR = BASE_DIR / "static" / "images"
 PRODUKTY_DIR = STATIC_DIR / "produkty"
-
-
-def _find_chromium() -> str | None:
-    """Nájdi Chromium executable — systémový alebo Playwright-ov."""
-    # Systémový Chromium (Debian/Ubuntu)
-    for candidate in ("/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome"):
-        if shutil.which(candidate) or Path(candidate).exists():
-            return candidate
-    # Playwright-ov Chromium (~/.cache/ms-playwright/chromium-*/chrome-linux/chrome)
-    matches = _glob.glob(os.path.expanduser("~/.cache/ms-playwright/chromium-*/chrome-linux/chrome"))
-    if matches:
-        return matches[0]
-    return None  # Playwright použije vlastný default
-
 
 jinja_env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
 
@@ -114,23 +95,12 @@ def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str]:
     return typ_produktu, None, ""
 
 
-def _link_callback(uri: str, rel: str) -> str:
-    p = Path(uri)
-    if p.is_absolute() and p.exists():
-        return str(p)
-    candidate = BASE_DIR / uri.lstrip("/")
-    if candidate.exists():
-        return str(candidate)
-    return uri
-
-
 def generuj_pdf(data: dict) -> bytes:
     slovensky_nazov, foto_path, popis = zisti_produkt(data.get("typ_produktu", ""))
 
     priplatky = data.get("priplatky") or []
     priplatky_suma = sum(p.get("suma", 0) for p in priplatky)
 
-    # Predpocitaj zobrazovane retazce — template ma len jednoduche {{ var }}
     rozmery = ""
     s, v = data.get("rozmer_sirka_cm"), data.get("rozmer_vyska_cm")
     if s and v:
@@ -167,33 +137,4 @@ def generuj_pdf(data: dict) -> bytes:
         cena_s_dph_celkom_str=f"{data.get('cena_s_dph', 0):.2f} €",
     )
 
-    # Ulož HTML do docasneho suboru a konvertuj cez Playwright/Chromium
-    with tempfile.NamedTemporaryFile(suffix=".html", delete=False, mode="w", encoding="utf-8") as f:
-        f.write(html_content)
-        tmp_html = Path(f.name)
-
-    try:
-        chromium_path = _find_chromium()
-        with sync_playwright() as p:
-            browser = p.chromium.launch(
-                executable_path=chromium_path,
-                args=[
-                    "--no-sandbox",
-                    "--disable-setuid-sandbox",
-                    "--disable-dev-shm-usage",
-                    "--disable-gpu",
-                    "--single-process",
-                ],
-            )
-            page = browser.new_page()
-            page.goto(tmp_html.as_uri(), wait_until="networkidle")
-            pdf_bytes = page.pdf(
-                format="A4",
-                margin={"top": "15mm", "bottom": "15mm", "left": "15mm", "right": "15mm"},
-                print_background=True,
-            )
-            browser.close()
-    finally:
-        tmp_html.unlink(missing_ok=True)
-
-    return pdf_bytes
+    return HTML(string=html_content, base_url=str(BASE_DIR)).write_pdf()
