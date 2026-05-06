@@ -1,5 +1,7 @@
+import glob as _glob
 import os
 import platform
+import shutil
 import tempfile
 from pathlib import Path
 
@@ -10,6 +12,19 @@ BASE_DIR = Path(__file__).parent
 TEMPLATES_DIR = BASE_DIR / "templates"
 STATIC_DIR = BASE_DIR / "static" / "images"
 PRODUKTY_DIR = STATIC_DIR / "produkty"
+
+
+def _find_chromium() -> str | None:
+    """Nájdi Chromium executable — systémový alebo Playwright-ov."""
+    # Systémový Chromium (Debian/Ubuntu)
+    for candidate in ("/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome"):
+        if shutil.which(candidate) or Path(candidate).exists():
+            return candidate
+    # Playwright-ov Chromium (~/.cache/ms-playwright/chromium-*/chrome-linux/chrome)
+    matches = _glob.glob(os.path.expanduser("~/.cache/ms-playwright/chromium-*/chrome-linux/chrome"))
+    if matches:
+        return matches[0]
+    return None  # Playwright použije vlastný default
 
 
 jinja_env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
@@ -158,13 +173,18 @@ def generuj_pdf(data: dict) -> bytes:
         tmp_html = Path(f.name)
 
     try:
+        chromium_path = _find_chromium()
         with sync_playwright() as p:
-            browser = p.chromium.launch(args=[
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-            ])
+            browser = p.chromium.launch(
+                executable_path=chromium_path,
+                args=[
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-gpu",
+                    "--single-process",
+                ],
+            )
             page = browser.new_page()
             page.goto(tmp_html.as_uri(), wait_until="networkidle")
             pdf_bytes = page.pdf(

@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import re
+import traceback
 
 import anthropic
 from dotenv import load_dotenv
@@ -123,7 +124,12 @@ async def generate_pdf(data: dict):
     if missing:
         raise HTTPException(status_code=400, detail=f"Chýbajú polia: {missing}")
 
-    pdf_bytes = generuj_pdf(data)
+    try:
+        pdf_bytes = generuj_pdf(data)
+    except Exception as e:
+        tb = traceback.format_exc()
+        print(f"[PDF] Chyba:\n{tb}")
+        raise HTTPException(status_code=500, detail=f"PDF chyba: {e}\n{tb}")
 
     cislo = data.get("cislo_ponuky", "ponuka").replace("/", "_")
     filename = f"OnlyServis_{cislo}.pdf"
