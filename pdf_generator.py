@@ -159,7 +159,7 @@ def generuj_pdf(data: dict) -> bytes:
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch()
+            browser = p.chromium.launch(args=["--no-sandbox", "--disable-setuid-sandbox"])
             page = browser.new_page()
             page.goto(tmp_html.as_uri(), wait_until="networkidle")
             pdf_bytes = page.pdf(
