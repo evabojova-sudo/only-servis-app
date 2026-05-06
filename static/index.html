@@ -464,8 +464,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ponuky, email_zakaznika: email }),
       });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.detail || 'Chyba servera');
+      const txt = await res.text();
+      let result;
+      try { result = JSON.parse(txt); } catch { throw new Error(txt); }
+      if (!res.ok) throw new Error(result.detail || txt);
       const meno = ponuky[0]?.zakaznik_meno || '';
       setAlert('alertSuhrn', 'success',
         `✓ Email odoslaný na ${email} — ${result.pocet_pdf} PDF ${result.pocet_pdf === 1 ? 'príloha' : 'prílohy'}.`);
@@ -574,7 +576,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error(((await res.json().catch(() => ({}))).detail) || 'Chyba');
+      if (!res.ok) {
+        const txt = await res.text();
+        let detail = txt;
+        try { detail = JSON.parse(txt).detail || txt; } catch {}
+        throw new Error(detail);
+      }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
