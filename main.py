@@ -7,11 +7,12 @@ import anthropic
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 from database import init_db, uloz_ponuku, oznac_email_odoslany
-from email_sender import posli_ponuku
+from email_sender import posli_ponuku, posli_zakazku
 from pdf_generator import generuj_pdf, zisti_produkt
 
 load_dotenv(override=True)
@@ -62,9 +63,14 @@ Polia ktoré musíš extrahovať:
 Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formátovania."""
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 def root():
-    return {"status": "ok", "app": "OnlyServis API", "faza": 2}
+    return FileResponse("static/index.html")
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "app": "OnlyServis API"}
 
 
 @app.post("/extract-pdf")
@@ -204,3 +210,102 @@ async def process(
         "db": db_ids,
         "email_odoslany": email_odoslany,
     }
+
+
+class SendPonukaRequest(BaseModel):
+    data: dict
+    email_zakaznika: str
+
+
+class SendZakazkaRequest(BaseModel):
+    ponuky: list[dict]
+    email_zakaznika: str
+
+
+@app.post("/send-ponuka")
+async def send_ponuka(req: SendPonukaRequest):
+    """Prijme JSON s dátami ponuky + email, vygeneruje PDF a odošle zákazníkovi."""
+    data = req.data
+    email = req.email_zakaznika.strip()
+
+    if not email:
+        raise HTTPException(status_code=400, detail="Email zákazníka je povinný")
+
+    slovensky_nazov, _, _ = zisti_produkt(data.get("typ_produktu", ""))
+    data.setdefault("slovensky_nazov", slovensky_nazov)
+
+    pdf_bytes = generuj_pdf(data)
+    cislo = data.get("cislo_ponuky", "ponuka").replace("/", "_")
+    pdf_filename = f"OnlyServis_{cislo}.pdf"
+
+    db_ids = {}
+    if os.getenv("DATABASE_URL"):
+        try:
+            db_ids = uloz_ponuku(data, email)
+        except Exception as e:
+            print(f"[DB] Chyba: {e}")
+
+    if not os.getenv("GMAIL_SENDER"):
+        raise HTTPException(status_code=500, detail="Email odosielanie nie je nakonfigurované")
+
+    try:
+        posli_ponuku(
+            email_zakaznika=email,
+            cislo_ponuky=data.get("cislo_ponuky", ""),
+            zakaznik_meno=data.get("zakaznik_meno", ""),
+            pdf_bytes=pdf_bytes,
+            pdf_filename=pdf_filename,
+        )
+    except Exception as e:
+        print(f"[EMAIL] Chyba: {e}")
+        raise HTTPException(status_code=500, detail=f"Email sa nepodarilo odoslať: {e}")
+
+    if db_ids.get("ponuka_id"):
+        try:
+            oznac_email_odoslany(db_ids["ponuka_id"])
+        except Exception as e:
+            print(f"[DB] oznac_email_odoslany chyba: {e}")
+
+    return {"email_odoslany": True, "db": db_ids}
+
+
+@app.post("/send-zakazka")
+async def send_zakazka(req: SendZakazkaRequest):
+    """Prijme viac ponúk (každá = jeden produkt), vygeneruje PDF pre každú
+    a odošle JEDEN súhrnný email so všetkými PDF v prílohe."""
+    email = req.email_zakaznika.strip()
+    if not email:
+        raise HTTPException(status_code=400, detail="Email zákazníka je povinný")
+    if not req.ponuky:
+        raise HTTPException(status_code=400, detail="Žiadne ponuky na odoslanie")
+    if not os.getenv("GMAIL_SENDER"):
+        raise HTTPException(status_code=500, detail="Email odosielanie nie je nakonfigurované")
+
+    polozky = []
+    for data in req.ponuky:
+        slovensky_nazov, _, _ = zisti_produkt(data.get("typ_produktu", ""))
+        data.setdefault("slovensky_nazov", slovensky_nazov)
+        pdf_bytes = generuj_pdf(data)
+        cislo = data.get("cislo_ponuky", "ponuka").replace("/", "_")
+        pdf_filename = f"OnlyServis_{cislo}.pdf"
+        polozky.append((pdf_bytes, pdf_filename, data))
+
+        if os.getenv("DATABASE_URL"):
+            try:
+                uloz_ponuku(data, email)
+            except Exception as e:
+                print(f"[DB] Chyba pri ukladaní: {e}")
+
+    zakaznik_meno = req.ponuky[0].get("zakaznik_meno", "")
+
+    try:
+        posli_zakazku(
+            email_zakaznika=email,
+            zakaznik_meno=zakaznik_meno,
+            polozky=polozky,
+        )
+    except Exception as e:
+        print(f"[EMAIL] Chyba: {e}")
+        raise HTTPException(status_code=500, detail=f"Email sa nepodarilo odoslať: {e}")
+
+    return {"email_odoslany": True, "pocet_pdf": len(polozky)}
