@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     libcairo2 \
     libfontconfig1 \
+    libfribidi0 \
+    libglib2.0-0 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     libpangoft2-1.0-0 \

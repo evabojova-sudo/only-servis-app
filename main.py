@@ -14,7 +14,16 @@ from pydantic import BaseModel
 
 from database import init_db, uloz_ponuku, oznac_email_odoslany
 from email_sender import posli_ponuku, posli_zakazku
-from pdf_generator import generuj_pdf, zisti_produkt
+try:
+    from pdf_generator import generuj_pdf, zisti_produkt
+    _pdf_error = None
+except Exception as _pdf_exc:
+    print(f"[PDF] Import zlyhal: {_pdf_exc}\n{traceback.format_exc()}")
+    _pdf_error = str(_pdf_exc)
+    def generuj_pdf(data):
+        raise RuntimeError(f"PDF generator nie je dostupný: {_pdf_error}")
+    def zisti_produkt(t):
+        return t, None, ""
 
 load_dotenv(override=True)
 
