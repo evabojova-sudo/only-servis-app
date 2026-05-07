@@ -7,7 +7,7 @@ Fáza 3 ✅ — Databáza PostgreSQL na Railway
 Fáza 4 ❌ — Gmail/email — padá: [Errno 101] Network is unreachable
              SMTP prístup (GMAIL_SENDER + GMAIL_APP_PASSWORD v Railway env vars)
              Fungovalo predtým — rozbil sa počas WeasyPrint opráv dňa 6.5.2026
-Fáza 5 ⚠️  — Frontend — deploy na Vercel prechádza, testujeme
+Fáza 5 ⚠️  — Frontend — deploy na Railway, testujeme
 Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 
 ## Čo NESMIEŠ meniť bez môjho súhlasu
@@ -24,7 +24,7 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 - PDF generovanie: WeasyPrint z HTML šablóny
 - DB: PostgreSQL na Railway
 - Email: SMTP s app password (premenné: GMAIL_SENDER, GMAIL_APP_PASSWORD)
-- Frontend: HTML/JS na Vercel (Fáza 5 — testujeme)
+- Frontend: HTML/JS na Railway (Fáza 5 — testujeme)
 - Obrázky produktov: /static/images/produkty/
 - Logo: /static/images/logo_onlyservis.jpg
 
