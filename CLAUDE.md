@@ -34,8 +34,7 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 - Pri chybe najprv vyčerpaj existujúce riešenia, nezavadzaj nové patterny
 
 ## Aktuálna úloha
-Fázy 1–6 funkčné. Ďalší krok: overenie domény onlyservis.sk v Resend pre odosielanie z info@onlyservis.sk.
-Pred akoukoľvek zmenou mi vysvetli čo chceš zmeniť a prečo.
+Pozri TASKS.md — tam sú všetky otvorené úlohy a feedback.
 
 ## Firemné údaje (používaj v generovaných PDF a emailoch)
 only servis s.r.o.
