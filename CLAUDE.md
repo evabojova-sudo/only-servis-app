@@ -38,7 +38,7 @@ Fázy 1–6 funkčné. Ďalší krok: overenie domény onlyservis.sk v Resend pr
 Pred akoukoľvek zmenou mi vysvetli čo chceš zmeniť a prečo.
 
 ## Firemné údaje (používaj v generovaných PDF a emailoch)
-Only Servis s.r.o.
+only servis s.r.o.
 Adresa: Lermontovova 911/3, 811 05 Bratislava
 Kontakt: Machala Roman
 Telefón: 0903 533 534
