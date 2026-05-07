@@ -17,6 +17,11 @@ Tel: 0903 533 534
 info@onlyservis.sk"""
 
 
+def _oslovenie(meno: str) -> str:
+    priezvisko = meno.strip().split()[-1] if meno.strip() else ""
+    return f"pani {meno}" if priezvisko.lower().endswith("ová") else f"pán {meno}"
+
+
 def posli_ponuku(
     email_zakaznika: str,
     cislo_ponuky: str,
@@ -26,7 +31,7 @@ def posli_ponuku(
 ) -> None:
     """Odošle jeden PDF ako samostatná ponuka."""
     body = (
-        f"Dobrý deň, {zakaznik_meno},\n\n"
+        f"Dobrý deň {_oslovenie(zakaznik_meno)},\n\n"
         f"v prílohe Vám zasielame cenovú ponuku č. {cislo_ponuky}.\n\n"
         f"V prípade otázok nás neváhajte kontaktovať."
         f"{PODPIS}"
@@ -51,7 +56,7 @@ def posli_zakazku(
 ) -> None:
     """Odošle jeden súhrnný email so všetkými PDF v prílohe."""
     riadky = [
-        f"Dobrý deň, {zakaznik_meno},\n",
+        f"Dobrý deň {_oslovenie(zakaznik_meno)},\n",
         "v prílohe Vám zasielame cenovú ponuku pre nasledujúce produkty:\n",
     ]
     celkom = 0.0
