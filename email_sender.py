@@ -1,30 +1,20 @@
+import base64
 import os
-import smtplib
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
+import resend
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 587
-SENDER = os.getenv("GMAIL_SENDER", "")
-APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
+resend.api_key = os.getenv("RESEND_API_KEY", "")
+
+SENDER = os.getenv("GMAIL_SENDER", "onboarding@resend.dev")
 
 PODPIS = """\nS pozdravom,
 Machala Roman
 only servis s.r.o.
 Tel: 0903 533 534
 info@climaxsk.sk"""
-
-
-def _odosli(msg: MIMEMultipart, email_zakaznika: str) -> None:
-    with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as smtp:
-        smtp.starttls()
-        smtp.login(SENDER, APP_PASSWORD)
-        smtp.sendmail(SENDER, email_zakaznika, msg.as_bytes())
 
 
 def posli_ponuku(
@@ -35,24 +25,23 @@ def posli_ponuku(
     pdf_filename: str,
 ) -> None:
     """Odošle jeden PDF ako samostatná ponuka."""
-    msg = MIMEMultipart()
-    msg["From"] = SENDER
-    msg["To"] = email_zakaznika
-    msg["Subject"] = f"Cenová ponuka {cislo_ponuky} – only servis s.r.o."
-
     body = (
         f"Dobrý deň, {zakaznik_meno},\n\n"
         f"v prílohe Vám zasielame cenovú ponuku č. {cislo_ponuky}.\n\n"
         f"V prípade otázok nás neváhajte kontaktovať."
         f"{PODPIS}"
     )
-    msg.attach(MIMEText(body, "plain", "utf-8"))
 
-    att = MIMEApplication(pdf_bytes, _subtype="pdf")
-    att.add_header("Content-Disposition", "attachment", filename=pdf_filename)
-    msg.attach(att)
-
-    _odosli(msg, email_zakaznika)
+    resend.Emails.send({
+        "from": SENDER,
+        "to": email_zakaznika,
+        "subject": f"Cenová ponuka {cislo_ponuky} – only servis s.r.o.",
+        "text": body,
+        "attachments": [{
+            "filename": pdf_filename,
+            "content": list(pdf_bytes),
+        }],
+    })
 
 
 def posli_zakazku(
@@ -60,15 +49,7 @@ def posli_zakazku(
     zakaznik_meno: str,
     polozky: list[tuple[bytes, str, dict]],
 ) -> None:
-    """Odošle jeden súhrnný email so všetkými PDF v prílohe.
-
-    polozky: zoznam (pdf_bytes, pdf_filename, data_dict) pre každý produkt.
-    """
-    msg = MIMEMultipart()
-    msg["From"] = SENDER
-    msg["To"] = email_zakaznika
-    msg["Subject"] = f"Cenová ponuka – {zakaznik_meno} – only servis s.r.o."
-
+    """Odošle jeden súhrnný email so všetkými PDF v prílohe."""
     riadky = [
         f"Dobrý deň, {zakaznik_meno},\n",
         "v prílohe Vám zasielame cenovú ponuku pre nasledujúce produkty:\n",
@@ -85,11 +66,15 @@ def posli_zakazku(
     riadky.append("\nV prípade otázok nás neváhajte kontaktovať.")
     riadky.append(PODPIS)
 
-    msg.attach(MIMEText("\n".join(riadky), "plain", "utf-8"))
+    attachments = [
+        {"filename": pdf_filename, "content": list(pdf_bytes)}
+        for pdf_bytes, pdf_filename, _ in polozky
+    ]
 
-    for pdf_bytes, pdf_filename, _ in polozky:
-        att = MIMEApplication(pdf_bytes, _subtype="pdf")
-        att.add_header("Content-Disposition", "attachment", filename=pdf_filename)
-        msg.attach(att)
-
-    _odosli(msg, email_zakaznika)
+    resend.Emails.send({
+        "from": SENDER,
+        "to": email_zakaznika,
+        "subject": f"Cenová ponuka – {zakaznik_meno} – only servis s.r.o.",
+        "text": "\n".join(riadky),
+        "attachments": attachments,
+    })
