@@ -14,7 +14,7 @@ PODPIS = """\nS pozdravom,
 Machala Roman
 only servis s.r.o.
 Tel: 0903 533 534
-info@climaxsk.sk"""
+info@onlyservis.sk"""
 
 
 def posli_ponuku(

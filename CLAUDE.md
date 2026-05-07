@@ -34,7 +34,7 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 - Pri chybe najprv vyčerpaj existujúce riešenia, nezavadzaj nové patterny
 
 ## Aktuálna úloha
-Fázy 1–6 funkčné. Ďalší krok: overenie domény climaxsk.sk v Resend pre odosielanie z info@climaxsk.sk.
+Fázy 1–6 funkčné. Ďalší krok: overenie domény onlyservis.sk v Resend pre odosielanie z info@onlyservis.sk.
 Pred akoukoľvek zmenou mi vysvetli čo chceš zmeniť a prečo.
 
 ## Firemné údaje (používaj v generovaných PDF a emailoch)
@@ -42,6 +42,6 @@ Only Servis s.r.o.
 Adresa: Lermontovova 911/3, 811 05 Bratislava
 Kontakt: Machala Roman
 Telefón: 0903 533 534
-Email: info@climaxsk.sk
+Email: info@onlyservis.sk
 IČO: 55639461
 Farby: modrá #1B3A8C, žltá #FFD700
