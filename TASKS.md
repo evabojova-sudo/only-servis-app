@@ -4,7 +4,7 @@
 - [ ] Pomalé spracovanie — Roman, 7.5.2026
       (upresniť: je pomalá extrakcia PDF, generovanie, alebo celý flow?)
 
-- [ ] Doplniť všeobecný text na koniec vygenerovaného PDF — 11.5.2026
+- [x] Doplniť všeobecný text na koniec vygenerovaného PDF — 11.5.2026
       Text (zachovať presné znenie):
 
       Termín dodania je udávaný ako obvyklý jeho skutočná dĺžka môže byť iná (o.i. obmedzenia z vyššej moci - napr.COVID19 ). Vzhľadom k aktuálnej situácii na trhu, sú v súčasnosti sú termíny jednotlivých dodávok tovaru potvrdzované výrobcom priebežne.
@@ -26,7 +26,8 @@
       0903 533 534
 
 ## 🟡 V riešení
-(prázdne)
+- [ ] Obrázky produktov do PDF — 11.5.2026
+      Roman dodá JPG súbory, nahrať do static/images/produkty/ s presnými názvami (vonkajsie_zaluzie.jpg, vonkajsie_rolety.jpg, screenove_rolety.jpg, okenne_siete.jpg, dverne_siete.jpg, markizy.jpg, pergoly.jpg, vnutorne_zaluzie.jpg, latkove_tienenie.jpg, komponenty.jpg)
 
 ## ✅ Dokončené
 - [x] Fáza 1 — POST /extract-pdf (Claude API extrakcia z PDF)
