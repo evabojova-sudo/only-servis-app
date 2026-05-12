@@ -110,7 +110,11 @@ def generuj_pdf(data: dict) -> bytes:
     if data.get("zlava_percent"):
         zlava_str = f"{int(data['zlava_percent'])}%  -  {data.get('zlava_suma', 0):.2f} €"
 
-    suhrn_bez_dph = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
+    produkt_bez_dph = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
+    suhrn_bez_dph = produkt_bez_dph + priplatky_suma
+    dph_percent = int(data.get("dph_percent") or 23)
+    dph_suma = suhrn_bez_dph * (dph_percent / 100)
+    cena_s_dph_celkom = suhrn_bez_dph + dph_suma
 
     template = jinja_env.get_template("ponuka.html")
     html_content = template.render(
@@ -132,10 +136,9 @@ def generuj_pdf(data: dict) -> bytes:
         ma_priplatky=len(priplatky) > 0,
         priplatky=priplatky,
         suhrn_bez_dph_str=f"{suhrn_bez_dph:.2f} €",
-        priplatky_suma_str=f"{priplatky_suma:.2f} €" if priplatky_suma else "",
-        dph_percent=int(data.get("dph_percent") or 23),
-        dph_suma_str=f"{data.get('dph_suma', 0):.2f} €",
-        cena_s_dph_celkom_str=f"{data.get('cena_s_dph', 0):.2f} €",
+        dph_percent=dph_percent,
+        dph_suma_str=f"{dph_suma:.2f} €",
+        cena_s_dph_celkom_str=f"{cena_s_dph_celkom:.2f} €",
     )
 
     return HTML(string=html_content, base_url=str(BASE_DIR)).write_pdf()
