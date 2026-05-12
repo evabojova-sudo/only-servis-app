@@ -1,5 +1,8 @@
+import base64
+import io
 from pathlib import Path
 
+import qrcode
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 
@@ -95,6 +98,17 @@ def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str]:
     return typ_produktu, None, ""
 
 
+def _qr_data_uri(url: str) -> str:
+    qr = qrcode.QRCode(box_size=4, border=1)
+    qr.add_data(url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    b64 = base64.b64encode(buf.getvalue()).decode()
+    return f"data:image/png;base64,{b64}"
+
+
 def generuj_pdf(data: dict) -> bytes:
     slovensky_nazov, foto_path, popis = zisti_produkt(data.get("typ_produktu", ""))
 
@@ -123,6 +137,7 @@ def generuj_pdf(data: dict) -> bytes:
     html_content = template.render(
         logo_path=str(STATIC_DIR / "logo_onlyservis.jpg"),
         climax_zaruka_path=str(STATIC_DIR / "climax_zaruka.jpg"),
+        qr_data_uri=_qr_data_uri("https://wa.me/421903533534"),
         foto_path=foto_path,
         cislo_ponuky=data.get("cislo_ponuky", ""),
         datum_ponuky=data.get("datum_ponuky", ""),
