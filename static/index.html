@@ -509,6 +509,10 @@
       <div class="section-label">Príplatky</div>
       <div class="priplatky-list" data-priplatky="${idx}"></div>
       <button class="btn-add-row" onclick="pridajPriplaток(${idx})">+ Pridať príplatok</button>
+      <div class="section-label">Poznámka (z CN)</div>
+      <div class="form-group" style="grid-column:1/-1">
+        <textarea data-field="poznamka" data-idx="${idx}" rows="3" style="width:100%;font-family:inherit;font-size:13px;padding:6px;border:1px solid #ccd3e8;border-radius:4px;resize:vertical;" placeholder="Automaticky extrahovaná z CN – môžete upraviť"></textarea>
+      </div>
     `;
   }
 
@@ -517,7 +521,7 @@
       'cislo_ponuky','datum_ponuky','zakaznik_meno','zakaznik_mesto',
       'typ_produktu','pocet_ks','rozmer_sirka_cm','rozmer_vyska_cm',
       'cena_bez_dph','zlava_percent','zlava_suma','cena_po_zlave',
-      'dph_percent','dph_suma','cena_s_dph'
+      'dph_percent','dph_suma','cena_s_dph','poznamka'
     ];
     fields.forEach(f => {
       const el = document.querySelector(`[data-field="${f}"][data-idx="${idx}"]`);
@@ -535,7 +539,7 @@
       'cislo_ponuky','datum_ponuky','zakaznik_meno','zakaznik_mesto',
       'typ_produktu','pocet_ks','rozmer_sirka_cm','rozmer_vyska_cm',
       'cena_bez_dph','zlava_percent','zlava_suma','cena_po_zlave',
-      'dph_percent','dph_suma','cena_s_dph'
+      'dph_percent','dph_suma','cena_s_dph','poznamka'
     ];
     const data = {};
     fields.forEach(f => {
