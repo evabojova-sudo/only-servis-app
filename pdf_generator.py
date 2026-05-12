@@ -115,6 +115,10 @@ def generuj_pdf(data: dict) -> bytes:
     dph_suma = data.get("dph_suma") or round(suhrn_bez_dph * dph_percent / 100, 2)
     cena_s_dph_celkom = data.get("cena_s_dph") or round(suhrn_bez_dph + dph_suma, 2)
 
+    # cena produktu bez priplatkov — pre zobrazenie v riadku produktu
+    produkt_bez_dph = suhrn_bez_dph - priplatky_suma
+    produkt_s_dph = round(produkt_bez_dph * (1 + dph_percent / 100), 2)
+
     template = jinja_env.get_template("ponuka.html")
     html_content = template.render(
         logo_path=str(STATIC_DIR / "logo_onlyservis.jpg"),
@@ -129,9 +133,9 @@ def generuj_pdf(data: dict) -> bytes:
         popis=popis,
         pocet_ks=data.get("pocet_ks", 1),
         rozmery=rozmery,
-        cena_bez_dph_str=f"{data.get('cena_bez_dph', 0):.2f} €",
+        cena_bez_dph_str=f"{produkt_bez_dph:.2f} €",
         zlava_str=zlava_str,
-        cena_s_dph_str=f"{data.get('cena_s_dph', 0):.2f} €",
+        cena_s_dph_str=f"{produkt_s_dph:.2f} €",
         ma_priplatky=len(priplatky) > 0,
         priplatky=priplatky,
         suhrn_bez_dph_str=f"{suhrn_bez_dph:.2f} €",
