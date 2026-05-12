@@ -69,6 +69,7 @@ Polia ktoré musíš extrahovať:
 - dph_suma: suma DPH (number)
 - cena_s_dph: finálna cena s DPH (number)
 - priplatky: JSON array objektov {nazov: string, suma: number} pre všetky príplatky (Montáž, Doprava, atď.)
+- poznamka: ak existuje text v poli Poznámka/Poznámky v PDF, extrahuj ho sem ako string. Ak neexistuje, vráť null.
 
 Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formátovania."""
 

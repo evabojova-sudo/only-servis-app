@@ -53,6 +53,7 @@ def init_db():
         cena_s_dph          DECIMAL(10,2),
         priplatky_json      JSONB
     );
+    ALTER TABLE polozky_ponuky ADD COLUMN IF NOT EXISTS poznamka TEXT;
     """
     with get_conn() as conn:
         with conn.cursor() as cur:
@@ -121,8 +122,8 @@ def uloz_ponuku(extrahovane: dict, email_zakaznika: str | None = None) -> dict:
                 """INSERT INTO polozky_ponuky
                    (id, ponuka_id, typ_produktu, slovensky_nazov,
                     pocet_ks, rozmer_sirka_cm, rozmer_vyska_cm,
-                    cena_bez_dph, zlava_percent, cena_s_dph, priplatky_json)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                    cena_bez_dph, zlava_percent, cena_s_dph, priplatky_json, poznamka)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                 (
                     uuid.uuid4(),
                     ponuka_id,
@@ -135,6 +136,7 @@ def uloz_ponuku(extrahovane: dict, email_zakaznika: str | None = None) -> dict:
                     extrahovane.get("zlava_percent"),
                     float(cena_s_dph),
                     psycopg2.extras.Json(priplatky),
+                    extrahovane.get("poznamka"),
                 ),
             )
 

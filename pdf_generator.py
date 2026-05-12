@@ -157,6 +157,7 @@ def generuj_pdf(data: dict) -> bytes:
         dph_percent=dph_percent,
         dph_suma_str=f"{dph_suma:.2f} €",
         cena_s_dph_celkom_str=f"{cena_s_dph_celkom:.2f} €",
+        poznamka=data.get("poznamka") or None,
     )
 
     return HTML(string=html_content, base_url=str(BASE_DIR)).write_pdf()
