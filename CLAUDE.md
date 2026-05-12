@@ -8,6 +8,8 @@ Fáza 4 ✅ — Email — funguje cez Resend API (RESEND_API_KEY + GMAIL_SENDER 
              SMTP nahradený Resend HTTP API — Railway blokoval port 587
 Fáza 5 ✅ — Frontend — funguje na Railway
 Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
+Fáza 7 ✅ — Všeobecný text (Poznámka / GDPR / DÔLEŽITÉ!) doplnený na koniec PDF (11.5.2026)
+             Priečinok static/images/produkty/ vytvorený, čaká na obrázky od Romana
 
 ## Čo NESMIEŠ meniť bez môjho súhlasu
 - endpoint /extract-pdf — funguje
@@ -23,7 +25,7 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 - PDF generovanie: WeasyPrint z HTML šablóny
 - DB: PostgreSQL na Railway
 - Email: Resend API (premenné: RESEND_API_KEY, GMAIL_SENDER)
-- Frontend: HTML/JS na Railway (Fáza 5 — testujeme)
+- Frontend: HTML/JS na Railway (Fáza 5 — funguje)
 - Obrázky produktov: /static/images/produkty/
 - Logo: /static/images/logo_onlyservis.jpg
 
