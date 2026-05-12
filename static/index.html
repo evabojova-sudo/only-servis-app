@@ -506,6 +506,7 @@
         <div class="form-group"><label>DPH suma (€)</label><input type="number" data-field="dph_suma" data-idx="${idx}" step="0.01"></div>
         <div class="form-group"><label>Cena s DPH (€)</label><input type="number" data-field="cena_s_dph" data-idx="${idx}" step="0.01"></div>
       </div>
+      <input type="hidden" data-field="polozky" data-idx="${idx}">
       <div class="section-label">Príplatky</div>
       <div class="priplatky-list" data-priplatky="${idx}"></div>
       <button class="btn-add-row" onclick="pridajPriplaток(${idx})">+ Pridať príplatok</button>
@@ -528,6 +529,8 @@
       if (el && d[f] != null) el.value = d[f];
     });
     (d.priplatky || []).forEach(p => pridajPriplaток(idx, p.nazov, p.suma));
+    const polozkyEl = document.querySelector(`[data-field="polozky"][data-idx="${idx}"]`);
+    if (polozkyEl && d.polozky) polozkyEl.value = JSON.stringify(d.polozky);
   }
 
   function getFormData(idx) {
@@ -557,6 +560,11 @@
       if (nazov) priplatky.push({ nazov, suma });
     });
     data.priplatky = priplatky;
+
+    const polozkyEl = document.querySelector(`[data-field="polozky"][data-idx="${idx}"]`);
+    try { data.polozky = polozkyEl && polozkyEl.value ? JSON.parse(polozkyEl.value) : []; }
+    catch { data.polozky = []; }
+
     return data;
   }
 

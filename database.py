@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 from datetime import datetime, date
@@ -54,6 +55,8 @@ def init_db():
         priplatky_json      JSONB
     );
     ALTER TABLE polozky_ponuky ADD COLUMN IF NOT EXISTS poznamka TEXT;
+    ALTER TABLE polozky_ponuky ADD COLUMN IF NOT EXISTS popis_polozky TEXT;
+    ALTER TABLE polozky_ponuky ADD COLUMN IF NOT EXISTS cena_ks DECIMAL(10,2);
     """
     with get_conn() as conn:
         with conn.cursor() as cur:
@@ -118,12 +121,17 @@ def uloz_ponuku(extrahovane: dict, email_zakaznika: str | None = None) -> dict:
             )
 
             # 3. Položka ponuky
+            polozky = extrahovane.get("polozky") or []
+            popis_polozky = json.dumps(polozky, ensure_ascii=False) if polozky else None
+            cena_ks = polozky[0].get("cena_ks") if polozky else None
+
             cur.execute(
                 """INSERT INTO polozky_ponuky
                    (id, ponuka_id, typ_produktu, slovensky_nazov,
                     pocet_ks, rozmer_sirka_cm, rozmer_vyska_cm,
-                    cena_bez_dph, zlava_percent, cena_s_dph, priplatky_json, poznamka)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                    cena_bez_dph, zlava_percent, cena_s_dph, priplatky_json,
+                    poznamka, popis_polozky, cena_ks)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                 (
                     uuid.uuid4(),
                     ponuka_id,
@@ -137,6 +145,8 @@ def uloz_ponuku(extrahovane: dict, email_zakaznika: str | None = None) -> dict:
                     float(cena_s_dph),
                     psycopg2.extras.Json(priplatky),
                     extrahovane.get("poznamka"),
+                    popis_polozky,
+                    float(cena_ks) if cena_ks is not None else None,
                 ),
             )
 

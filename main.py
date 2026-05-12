@@ -70,6 +70,11 @@ Polia ktoré musíš extrahovať:
 - cena_s_dph: finálna cena s DPH (number)
 - priplatky: JSON array objektov {nazov: string, suma: number} pre všetky príplatky (Montáž, Doprava, atď.)
 - poznamka: Hľadaj sekciu označenú ako "Poznámka:" alebo "Poznámky:". Extrahuj IBA text ktorý Roman napísal — teda text ktorý nasleduje bezprostredne po slove "Poznámka:" a KONČÍ pred vetou ktorá začína slovami "Termín dodania je udávaný" alebo "Zákonným dôvodom" alebo "Záruka 24". Ak takáto sekcia neexistuje alebo je prázdna, vráť null.
+- polozky: JSON array všetkých riadkov z tabuľky produktov. Pre každý riadok extrahuj:
+  { "poradove_cislo": integer, "popis": string alebo null, "sirka_cm": number alebo null, "vyska_cm": number alebo null, "pocet_ks": integer, "cena_ks": number }
+  Pole "popis" pochádza z kolónky "Popiska na štítek" — normalizuj skratky: "kuch" → "Kuchyňa", "obyv" → "Obývačka", "spalna" alebo "spálňa" → "Spálňa", "izba" → "Izba", "kupelna" alebo "kúpeľňa" → "Kúpeľňa", "wc" → "WC", "detska" → "Detská izba", "pracovna" → "Pracovňa", "jedalen" → "Jedáleň", "chodba" → "Chodba". Čo nevieš rozpoznať ponechaj ako je. Ak je pole prázdne, vráť null.
+  Pre komponenty bez rozmerov (napr. doprava, montáž ako produktové riadky): sirka_cm a vyska_cm sú null.
+  Ak tabuľka neobsahuje žiadne položky, vráť prázdny array [].
 
 Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formátovania."""
 

@@ -115,6 +115,11 @@ def generuj_pdf(data: dict) -> bytes:
     priplatky = data.get("priplatky") or []
     priplatky_suma = sum(p.get("suma", 0) for p in priplatky)
 
+    polozky = data.get("polozky") or []
+    ma_popis_col = any(p.get("popis") for p in polozky)
+    ma_rozmery_col = any(p.get("sirka_cm") for p in polozky)
+    col_count = (2 + (1 if ma_popis_col else 0) + (1 if ma_rozmery_col else 0)) if polozky else 6
+
     rozmery = ""
     s, v = data.get("rozmer_sirka_cm"), data.get("rozmer_vyska_cm")
     if s and v:
@@ -158,6 +163,10 @@ def generuj_pdf(data: dict) -> bytes:
         dph_suma_str=f"{dph_suma:.2f} €",
         cena_s_dph_celkom_str=f"{cena_s_dph_celkom:.2f} €",
         poznamka=data.get("poznamka") or None,
+        polozky=polozky,
+        ma_popis_col=ma_popis_col,
+        ma_rozmery_col=ma_rozmery_col,
+        col_count=col_count,
     )
 
     return HTML(string=html_content, base_url=str(BASE_DIR)).write_pdf()
