@@ -69,7 +69,7 @@ Polia ktoré musíš extrahovať:
 - dph_suma: suma DPH (number)
 - cena_s_dph: finálna cena s DPH (number)
 - priplatky: JSON array objektov {nazov: string, suma: number} pre všetky príplatky (Montáž, Doprava, atď.)
-- poznamka: ak existuje text v poli Poznámka/Poznámky v PDF, extrahuj ho sem ako string. Ak neexistuje, vráť null.
+- poznamka: Hľadaj sekciu označenú ako "Poznámka:" alebo "Poznámky:". Extrahuj IBA text ktorý Roman napísal — teda text ktorý nasleduje bezprostredne po slove "Poznámka:" a KONČÍ pred vetou ktorá začína slovami "Termín dodania je udávaný" alebo "Zákonným dôvodom" alebo "Záruka 24". Ak takáto sekcia neexistuje alebo je prázdna, vráť null.
 
 Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formátovania."""
 
