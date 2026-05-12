@@ -59,7 +59,7 @@
             border-bottom: 2pt solid #1B3A8C; border-top: 6pt solid white; }
 
   /* SUHRN */
-  .suhrn-wrap { width: 100%; margin-top: 14pt; }
+  .suhrn-wrap { width: 100%; margin-top: 14pt; page-break-inside: avoid; break-inside: avoid; }
   .suhrn-left { width: 42%; vertical-align: top; padding: 0; }
   .suhrn-right { width: 58%; vertical-align: top; padding: 0; }
   .suhrn { width: 100%; border-collapse: collapse; border: 2pt solid #1B3A8C; }
@@ -96,8 +96,9 @@
     <td class="hdr-right">
       <span class="hdr-firma">only servis s.r.o.</span><br>
       Lermontovova 911/3, 811 05 Bratislava<br>
-      IČO: 55 639 461 &nbsp;|&nbsp; Tel: 0903 533 534<br>
-      info@onlyservis.sk
+      <span style="white-space:nowrap">IČO: 55 639 461 &nbsp;|&nbsp; DIČ: 2122069488</span><br>
+      <span style="white-space:nowrap">IČ DPH: SK2122069488</span><br>
+      <span style="white-space:nowrap">Tel: 0903 533 534 &nbsp;|&nbsp; info@onlyservis.sk</span>
     </td>
   </tr>
 </table>
@@ -114,11 +115,18 @@
 </table>
 
 <!-- ODBERATEL -->
-<div class="odb">
-  <div class="odb-label">Odberateľ</div>
-  <div class="odb-meno">{{ zakaznik_meno }}</div>
-  <div class="odb-mesto">{{ zakaznik_mesto }}</div>
-</div>
+<table style="width:100%; border:0; border-collapse:collapse; margin-bottom:14pt; background-color:#f4f6fb; border-left:4pt solid #FFD700;">
+  <tr>
+    <td style="padding:9pt 12pt; vertical-align:middle;">
+      <div class="odb-label">Odberateľ</div>
+      <div class="odb-meno">{{ zakaznik_meno }}</div>
+      <div class="odb-mesto">{{ zakaznik_mesto }}</div>
+    </td>
+    <td style="padding:9pt 12pt; vertical-align:middle; text-align:right; width:90pt;">
+      <img src="{{ climax_zaruka_path }}" style="height:70pt; width:auto;" alt="4 roky záruka">
+    </td>
+  </tr>
+</table>
 
 <!-- FOTO + NAZOV PRODUKTU -->
 {% if foto_path %}
@@ -171,15 +179,9 @@
     <td class="suhrn-right">
       <table class="suhrn">
         <tr>
-          <td class="suhrn-td-lbl">Medzisúčet bez DPH</td>
+          <td class="suhrn-td-lbl">Spolu bez DPH</td>
           <td class="suhrn-td-val">{{ suhrn_bez_dph_str }}</td>
         </tr>
-        {% if priplatky_suma_str %}
-        <tr>
-          <td class="suhrn-td-lbl">Príplatky celkom</td>
-          <td class="suhrn-td-val">{{ priplatky_suma_str }}</td>
-        </tr>
-        {% endif %}
         <tr>
           <td class="suhrn-td-lbl">DPH {{ dph_percent }}%</td>
           <td class="suhrn-td-val">{{ dph_suma_str }}</td>
@@ -203,8 +205,8 @@
     </td>
     <td class="pata-right">
       Platnosť ponuky: <b>30 dní</b><br>
-      Termín dodania: <b>4–6 týždňov</b><br>
-      Záruka: <b>24 mesiacov</b>
+      Termín dodania: <b>obvykle do 14 prac. dní</b><br>
+      Záruka: <b>48 mesiacov</b>
     </td>
   </tr>
 </table>
@@ -225,7 +227,7 @@
   <p>Cena montáže nezahŕňa prácu vo výškach (nad 5 m pracovná výška).</p>
   <p>Cenová ponuka nezahŕňa vyhotovenie elektrického napájania, úpravu existujúceho napájania ani takú jeho úpravu, ktorá vyžaduje certifikáciu, odbornú spôsobilosť, skúšky prípadne atesty spôsobilosti v zmysle zákonov a vyhlášky, ktorá predmetnú činnosť upravuje.</p>
 
-  <div class="podmienky-sig">r machala &nbsp;_&nbsp; 0903 533 534</div>
+
 </div>
 
 </body>

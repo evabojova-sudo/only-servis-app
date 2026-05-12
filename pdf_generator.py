@@ -115,6 +115,7 @@ def generuj_pdf(data: dict) -> bytes:
     template = jinja_env.get_template("ponuka.html")
     html_content = template.render(
         logo_path=str(STATIC_DIR / "logo_onlyservis.jpg"),
+        climax_zaruka_path=str(STATIC_DIR / "climax_zaruka.jpg"),
         foto_path=foto_path,
         cislo_ponuky=data.get("cislo_ponuky", ""),
         datum_ponuky=data.get("datum_ponuky", ""),
