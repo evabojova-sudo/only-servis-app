@@ -110,11 +110,10 @@ def generuj_pdf(data: dict) -> bytes:
     if data.get("zlava_percent"):
         zlava_str = f"{int(data['zlava_percent'])}%  -  {data.get('zlava_suma', 0):.2f} €"
 
-    produkt_bez_dph = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
-    suhrn_bez_dph = produkt_bez_dph + priplatky_suma
+    suhrn_bez_dph = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
     dph_percent = int(data.get("dph_percent") or 23)
-    dph_suma = suhrn_bez_dph * (dph_percent / 100)
-    cena_s_dph_celkom = suhrn_bez_dph + dph_suma
+    dph_suma = data.get("dph_suma") or round(suhrn_bez_dph * dph_percent / 100, 2)
+    cena_s_dph_celkom = data.get("cena_s_dph") or round(suhrn_bez_dph + dph_suma, 2)
 
     template = jinja_env.get_template("ponuka.html")
     html_content = template.render(
