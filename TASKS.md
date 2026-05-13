@@ -5,6 +5,7 @@
       (upresniť: je pomalá extrakcia PDF, generovanie, alebo celý flow?)
 
 - [x] Doplniť všeobecný text na koniec vygenerovaného PDF — 11.5.2026
+- [x] Romanov pripomienky z PDF (12.5.2026): DIČ/IČ DPH, súhrnná tabuľka, termíny, logo Climax, QR kód, poznámka, položkový rozpis
       Text (zachovať presné znenie):
 
       Termín dodania je udávaný ako obvyklý jeho skutočná dĺžka môže byť iná (o.i. obmedzenia z vyššej moci - napr.COVID19 ). Vzhľadom k aktuálnej situácii na trhu, sú v súčasnosti sú termíny jednotlivých dodávok tovaru potvrdzované výrobcom priebežne.
@@ -28,6 +29,7 @@
 ## 🟡 V riešení
 - [ ] Obrázky produktov do PDF — 11.5.2026
       Roman dodá JPG súbory, nahrať do static/images/produkty/ s presnými názvami (vonkajsie_zaluzie.jpg, vonkajsie_rolety.jpg, screenove_rolety.jpg, okenne_siete.jpg, dverne_siete.jpg, markizy.jpg, pergoly.jpg, vnutorne_zaluzie.jpg, latkove_tienenie.jpg, komponenty.jpg)
+- [ ] Texty k produktom — Roman robí (11.5.2026)
 
 ## ✅ Dokončené
 - [x] Fáza 1 — POST /extract-pdf (Claude API extrakcia z PDF)

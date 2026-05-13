@@ -11,6 +11,20 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 Fáza 7 ✅ — Všeobecný text (Poznámka / GDPR / DÔLEŽITÉ!) doplnený na koniec PDF (11.5.2026)
              Priečinok static/images/produkty/ vytvorený, čaká na obrázky od Romana
 
+## Zmeny z 12–13.5.2026 (Roman's pripomienky)
+- Hlavička PDF: DIČ 2122069488, IČ DPH SK2122069488 — každý údaj na vlastnom riadku
+- Súhrnná tabuľka: "Spolu bez DPH" (bolo "Medzisúčet"), príplatky nie sú samostatný riadok
+- Cena produktu v riadku = len produkt bez príplatkov; súhrnná suma zahŕňa príplatky
+- Termín dodania: "obvykle do 14 prac. dní", Záruka: "48 mesiacov"
+- Odstránený podpis "r machala _" z poznámky
+- Climax "4 ROKY ZÁRUKA" logo pri odberateľovi (static/images/climax_zaruka.jpg)
+- WhatsApp QR kód v hlavičke (generovaný dynamicky pre wa.me/421903533534, knižnica qrcode[pil])
+- Súhrnná tabuľka: page-break-inside avoid
+- Extrakcia + zobrazenie poľa `poznamka` (Romanov text z CN, nie boilerplate)
+- Položkový rozpis produktov: pole `polozky` v extrakcii, tabuľka Produkt|Miestnosť|Rozmery|Cena/ks v PDF
+  Miestnosť stĺpec iba ak CN obsahuje štítky; fallback na starý riadok ak polozky prázdne
+- DB: polozky_ponuky rozšírená o stĺpce poznamka, popis_polozky, cena_ks
+
 ## Čo NESMIEŠ meniť bez môjho súhlasu
 - endpoint /extract-pdf — funguje
 - endpoint /generate-pdf — funguje
