@@ -252,7 +252,7 @@ async def send_ponuka(req: SendPonukaRequest):
     if not email:
         raise HTTPException(status_code=400, detail="Email zákazníka je povinný")
 
-    slovensky_nazov, _, _ = zisti_produkt(data.get("typ_produktu", ""))
+    slovensky_nazov, _, _, _ = zisti_produkt(data.get("typ_produktu", ""))
     data.setdefault("slovensky_nazov", slovensky_nazov)
 
     pdf_bytes = generuj_pdf(data)
@@ -304,7 +304,7 @@ async def send_zakazka(req: SendZakazkaRequest):
 
     polozky = []
     for data in req.ponuky:
-        slovensky_nazov, _, _ = zisti_produkt(data.get("typ_produktu", ""))
+        slovensky_nazov, _, _, _ = zisti_produkt(data.get("typ_produktu", ""))
         data.setdefault("slovensky_nazov", slovensky_nazov)
         pdf_bytes = generuj_pdf(data)
         cislo = data.get("cislo_ponuky", "ponuka").replace("/", "_")
