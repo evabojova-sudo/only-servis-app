@@ -89,13 +89,20 @@ PRODUKT_MAPA = [
 ]
 
 
-def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str]:
+def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str | None, str]:
     tp = typ_produktu.lower()
     for klucove_slova, nazov, fotka, popis in PRODUKT_MAPA:
         if any(k.lower() in tp for k in klucove_slova):
             foto_path = PRODUKTY_DIR / fotka
-            return nazov, str(foto_path) if foto_path.exists() else None, popis
-    return typ_produktu, None, ""
+            detail_fotka = fotka.replace(".jpg", "_detail.jpg")
+            foto_detail_path = PRODUKTY_DIR / detail_fotka
+            return (
+                nazov,
+                str(foto_path) if foto_path.exists() else None,
+                str(foto_detail_path) if foto_detail_path.exists() else None,
+                popis,
+            )
+    return typ_produktu, None, None, ""
 
 
 def _qr_data_uri(url: str) -> str:
@@ -110,7 +117,7 @@ def _qr_data_uri(url: str) -> str:
 
 
 def generuj_pdf(data: dict) -> bytes:
-    slovensky_nazov, foto_path, popis = zisti_produkt(data.get("typ_produktu", ""))
+    slovensky_nazov, foto_path, foto_detail_path, popis = zisti_produkt(data.get("typ_produktu", ""))
 
     priplatky = data.get("priplatky") or []
     priplatky_suma = sum(p.get("suma", 0) for p in priplatky)
@@ -127,7 +134,7 @@ def generuj_pdf(data: dict) -> bytes:
 
     zlava_str = ""
     if data.get("zlava_percent"):
-        zlava_str = f"{int(data['zlava_percent'])}%  -  {data.get('zlava_suma', 0):.2f} €"
+        zlava_str = f"{int(data['zlava_percent'])}%  -  {data.get('zlava_suma') or 0:.2f} €"
 
     suhrn_bez_dph = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
     dph_percent = int(data.get("dph_percent") or 23)
@@ -144,6 +151,7 @@ def generuj_pdf(data: dict) -> bytes:
         climax_zaruka_path=str(STATIC_DIR / "climax_zaruka.jpg"),
         qr_data_uri=_qr_data_uri("https://wa.me/421903533534"),
         foto_path=foto_path,
+        foto_detail_path=foto_detail_path,
         cislo_ponuky=data.get("cislo_ponuky", ""),
         datum_ponuky=data.get("datum_ponuky", ""),
         zakaznik_meno=data.get("zakaznik_meno", ""),

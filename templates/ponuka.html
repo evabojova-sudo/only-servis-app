@@ -33,7 +33,9 @@
   .odb-mesto { font-size: 13pt; color: #555; }
 
   /* FOTO + PRODUKT */
-  .foto { width: 100%; max-height: 120pt; margin-bottom: 8pt; display: block; }
+  .foto { width: 100%; max-height: 120pt; margin-bottom: 8pt; display: block; object-fit: cover; }
+  .foto-wrap { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
+  .foto-half { width: 100%; max-height: 120pt; display: block; object-fit: cover; }
   .prod-nazov { font-size: 16pt; font-weight: bold; color: #1B3A8C; margin-bottom: 5pt; }
   .prod-popis { font-size: 11pt; color: #555; margin-bottom: 14pt; }
 
@@ -134,7 +136,20 @@
 
 <!-- FOTO + NAZOV PRODUKTU -->
 {% if foto_path %}
+{% if foto_detail_path %}
+<table class="foto-wrap">
+  <tr>
+    <td style="width:50%; padding-right:2px; vertical-align:top;">
+      <img class="foto-half" src="{{ foto_path }}" alt="{{ slovensky_nazov }}">
+    </td>
+    <td style="width:50%; padding-left:2px; vertical-align:top;">
+      <img class="foto-half" src="{{ foto_detail_path }}" alt="{{ slovensky_nazov }} — detail">
+    </td>
+  </tr>
+</table>
+{% else %}
 <img class="foto" src="{{ foto_path }}" alt="{{ slovensky_nazov }}">
+{% endif %}
 {% endif %}
 <div class="prod-nazov">{{ slovensky_nazov }}</div>
 <div class="prod-popis">{{ popis }}</div>
