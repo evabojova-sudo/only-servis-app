@@ -45,7 +45,7 @@ if os.getenv("DATABASE_URL"):
     except Exception as e:
         print(f"[DB] init_db zlyhal: {e}")
 
-client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+client = anthropic.AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 EXTRACTION_PROMPT = """Si asistent na extrakciu dát z PDF cenových ponúk systému Climax (tienacia technika).
 
@@ -78,6 +78,8 @@ Polia ktoré musíš extrahovať:
 
 Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formátovania."""
 
+EXTRACTION_SYSTEM = [{"type": "text", "text": EXTRACTION_PROMPT, "cache_control": {"type": "ephemeral"}}]
+
 
 @app.get("/", include_in_schema=False)
 def root():
@@ -100,9 +102,10 @@ async def extract_pdf(file: UploadFile = File(...)):
 
     pdf_b64 = base64.standard_b64encode(pdf_bytes).decode("utf-8")
 
-    message = client.messages.create(
+    message = await client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1024,
+        system=EXTRACTION_SYSTEM,
         messages=[
             {
                 "role": "user",
@@ -114,10 +117,6 @@ async def extract_pdf(file: UploadFile = File(...)):
                             "media_type": "application/pdf",
                             "data": pdf_b64,
                         },
-                    },
-                    {
-                        "type": "text",
-                        "text": EXTRACTION_PROMPT,
                     },
                 ],
             }
@@ -172,14 +171,14 @@ async def process(
     pdf_b64 = base64.standard_b64encode(pdf_bytes).decode("utf-8")
 
     # 1. Extrakcia cez Claude API
-    message = client.messages.create(
+    message = await client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1024,
+        system=EXTRACTION_SYSTEM,
         messages=[{
             "role": "user",
             "content": [
                 {"type": "document", "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_b64}},
-                {"type": "text", "text": EXTRACTION_PROMPT},
             ],
         }],
     )
