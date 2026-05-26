@@ -230,6 +230,14 @@
   {% endif %}
 </table>
 
+<!-- POZNAMKA Z CLIMAX CN -->
+{% if poznamka %}
+<div style="width:100%; box-sizing:border-box; margin-top:10pt; margin-bottom:10pt; padding:8pt 12pt;
+            background-color:#f4f4f4; font-size:10pt; color:#444; line-height:1.5; white-space:pre-wrap;">
+  <span style="font-weight:bold; color:#1B3A8C;">Poznámka:</span> {{ poznamka }}
+</div>
+{% endif %}
+
 <!-- SUHRN -->
 <table class="suhrn-wrap">
   <tr>
@@ -269,18 +277,8 @@
   </tr>
 </table>
 
-<!-- ZAVERECNA STRANA: POZNAMKA + PODMIENKY -->
-<div style="page-break-before: always;">
-
-{% if poznamka %}
-<div style="width:100%; box-sizing:border-box; margin-bottom:14pt; padding:8pt 12pt;
-            background-color:#f4f4f4; font-size:10pt; color:#444; line-height:1.5; white-space:pre-wrap;">
-  <span style="font-weight:bold; color:#1B3A8C;">Poznámka:</span> {{ poznamka }}
-</div>
-{% endif %}
-
 <!-- VSEOBECNE PODMIENKY -->
-<div class="podmienky">
+<div class="podmienky" style="page-break-before: always;">
   <div class="podmienky-h">Poznámka</div>
   <p>Termín dodania je udávaný ako obvyklý, jeho skutočná dĺžka môže byť iná (o.i. obmedzenia z vyššej moci – napr. COVID19). Vzhľadom k aktuálnej situácii na trhu sú v súčasnosti termíny jednotlivých dodávok tovaru potvrdzované výrobcom priebežne.</p>
 
@@ -297,8 +295,6 @@
 
 
 </div>
-
-</div><!-- end zaverecna strana -->
 
 </body>
 </html>
