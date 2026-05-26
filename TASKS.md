@@ -4,6 +4,10 @@
 - [ ] Pomalé spracovanie — Roman, 7.5.2026
       (upresniť: je pomalá extrakcia PDF, generovanie, alebo celý flow?)
 
+- [x] Bug: manuálne príplatky sa nezapočítavali do celkovej sumy PDF — 26.5.2026
+      Fix: pridané pole priplatky_v_cene (frontend sleduje sumu extrahovaných príplatkov),
+      pdf_generator.py prepočítava suhrn_bez_dph a CELKOVÚ CENU S DPH správne.
+
 - [x] Doplniť všeobecný text na koniec vygenerovaného PDF — 11.5.2026
 - [x] Romanov pripomienky z PDF (12.5.2026): DIČ/IČ DPH, súhrnná tabuľka, termíny, logo Climax, QR kód, poznámka, položkový rozpis
       Text (zachovať presné znenie):
