@@ -507,6 +507,7 @@
         <div class="form-group"><label>Cena s DPH (€)</label><input type="number" data-field="cena_s_dph" data-idx="${idx}" step="0.01"></div>
       </div>
       <input type="hidden" data-field="polozky" data-idx="${idx}">
+      <input type="hidden" data-field="priplatky_v_cene" data-idx="${idx}">
       <div class="section-label">Príplatky</div>
       <div class="priplatky-list" data-priplatky="${idx}"></div>
       <button class="btn-add-row" onclick="pridajPriplaток(${idx})">+ Pridať príplatok</button>
@@ -529,6 +530,8 @@
       if (el && d[f] != null) el.value = d[f];
     });
     (d.priplatky || []).forEach(p => pridajPriplaток(idx, p.nazov, p.suma));
+    const pvEl = document.querySelector(`[data-field="priplatky_v_cene"][data-idx="${idx}"]`);
+    if (pvEl) pvEl.value = (d.priplatky || []).reduce((s, p) => s + (parseFloat(p.suma) || 0), 0);
     const polozkyEl = document.querySelector(`[data-field="polozky"][data-idx="${idx}"]`);
     if (polozkyEl && d.polozky) polozkyEl.value = JSON.stringify(d.polozky);
   }
@@ -536,13 +539,14 @@
   function getFormData(idx) {
     const numFields = new Set([
       'pocet_ks','rozmer_sirka_cm','rozmer_vyska_cm','cena_bez_dph',
-      'zlava_percent','zlava_suma','cena_po_zlave','dph_percent','dph_suma','cena_s_dph'
+      'zlava_percent','zlava_suma','cena_po_zlave','dph_percent','dph_suma','cena_s_dph',
+      'priplatky_v_cene'
     ]);
     const fields = [
       'cislo_ponuky','datum_ponuky','zakaznik_meno','zakaznik_mesto',
       'typ_produktu','pocet_ks','rozmer_sirka_cm','rozmer_vyska_cm',
       'cena_bez_dph','zlava_percent','zlava_suma','cena_po_zlave',
-      'dph_percent','dph_suma','cena_s_dph','poznamka'
+      'dph_percent','dph_suma','cena_s_dph','poznamka','priplatky_v_cene'
     ];
     const data = {};
     fields.forEach(f => {
