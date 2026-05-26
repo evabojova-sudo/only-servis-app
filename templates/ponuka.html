@@ -153,7 +153,17 @@
 {% endif %}
 {% endif %}
 <div class="prod-nazov">{{ slovensky_nazov }}</div>
-<div class="prod-popis">{{ popis }}</div>
+{% if popis_intro or popis_bullets %}
+<div class="prod-popis">
+  {% if popis_intro %}<p style="margin:0 0 6pt 0;">{{ popis_intro }}</p>{% endif %}
+  {% if popis_bullets %}
+  <ul style="margin:4pt 0 8pt 14pt; padding:0; color:#555; font-size:11pt;">
+    {% for b in popis_bullets %}<li style="margin-bottom:2pt;">{{ b }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% if popis_closing %}<p style="margin:2pt 0 0 0; font-style:italic; font-size:10pt; color:#777;">{{ popis_closing }}</p>{% endif %}
+</div>
+{% endif %}
 
 <!-- TABULKA PRODUKTU -->
 <table class="tbl">
