@@ -156,7 +156,26 @@
 
 <!-- TABULKA PRODUKTU -->
 <table class="tbl">
-  {% if polozky %}
+  {% if je_komponenty %}
+  <tr>
+    <td class="tbl-th" style="width:3%;">Č.</td>
+    <td class="tbl-th">Názov komponentu</td>
+    <td class="tbl-th-r" style="width:10%;">Počet</td>
+    <td class="tbl-th-r" style="width:8%;">Jedn.</td>
+    <td class="tbl-th-r" style="width:12%;">Cena/ks</td>
+    <td class="tbl-th-r" style="width:14%;">Cena za riadok</td>
+  </tr>
+  {% for p in polozky %}
+  <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}">
+    <td class="tbl-td">{{ p.poradove_cislo or loop.index }}</td>
+    <td class="tbl-td-b">{{ p.nazov or '' }}</td>
+    <td class="tbl-td-r">{{ p.pocet_ks }}</td>
+    <td class="tbl-td-r">{{ p.jednotka or 'ks' }}</td>
+    <td class="tbl-td-r">{{ "%.2f"|format(p.cena_ks) }} &euro;</td>
+    <td class="tbl-td-r">{{ "%.2f"|format(p.cena_riadok or (p.pocet_ks * p.cena_ks)) }} &euro;</td>
+  </tr>
+  {% endfor %}
+  {% elif polozky %}
   <tr>
     <td class="tbl-th">Produkt</td>
     {% if ma_popis_col %}<td class="tbl-th">Miestnosť</td>{% endif %}
