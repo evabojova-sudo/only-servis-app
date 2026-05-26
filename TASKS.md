@@ -4,6 +4,9 @@
 - [ ] Pomalé spracovanie — Roman, 7.5.2026
       (upresniť: je pomalá extrakcia PDF, generovanie, alebo celý flow?)
 
+- [x] Bug: zisti_produkt() padá keď typ_produktu je None — 26.5.2026
+      Fix: guard na začiatku funkcie, vracia bezpečné defaulty ("", None, None, "").
+
 - [x] Bug: manuálne príplatky sa nezapočítavali do celkovej sumy PDF — 26.5.2026
       Fix: pridané pole priplatky_v_cene (frontend sleduje sumu extrahovaných príplatkov),
       pdf_generator.py prepočítava suhrn_bez_dph a CELKOVÚ CENU S DPH správne.

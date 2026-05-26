@@ -90,6 +90,8 @@ PRODUKT_MAPA = [
 
 
 def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str | None, str]:
+    if not typ_produktu:
+        return "", None, None, ""
     tp = typ_produktu.lower()
     for klucove_slova, nazov, fotka, popis in PRODUKT_MAPA:
         if any(k.lower() in tp for k in klucove_slova):
