@@ -88,7 +88,8 @@ EMAIL_PROMPT = """Napíš stručný a profesionálny sprievodný e-mail k cenove
 - Nepíš zbytočné detaily.
 - Na konci vždy napíš: V prípade otázok alebo záujmu o realizáciu ma neváhajte kontaktovať. Ďakujem a prajem príjemný deň. only servis
 - Ak je ponuka jedna, použi jednu odrážku. Ak je ponúk viac, použi prehľadný zoznam s odrážkami.
-- Výstup má byť hotový e-mail bez vysvetľovania."""
+- Výstup má byť hotový e-mail bez vysvetľovania.
+- Nepoužívaj žiadne markdown formátovanie — žiadne hviezdičky, podčiarkovníky ani iné špeciálne znaky. Iba čistý text."""
 
 
 async def _generuj_email_body(polozky_info: list[dict]) -> str:
@@ -121,7 +122,7 @@ async def _generuj_email_body(polozky_info: list[dict]) -> str:
             system=EMAIL_PROMPT,
             messages=[{"role": "user", "content": user_msg}],
         )
-        return msg.content[0].text.strip()
+        return msg.content[0].text.strip().replace("**", "").replace("__", "")
     except Exception as e:
         print(f"[EMAIL AI] Chyba pri generovaní emailu: {e}")
         return ""
