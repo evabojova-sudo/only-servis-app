@@ -10,7 +10,7 @@ resend.api_key = os.getenv("RESEND_API_KEY", "")
 
 SENDER = os.getenv("GMAIL_SENDER", "onboarding@resend.dev")
 
-PODPIS = """\nS pozdravom,
+PODPIS = """\n\nS pozdravom,
 machala roman
 only servis
 Tel: 0903 533 534
