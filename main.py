@@ -104,7 +104,7 @@ async def extract_pdf(file: UploadFile = File(...)):
 
     message = await client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1024,
+        max_tokens=4096,
         system=EXTRACTION_SYSTEM,
         messages=[
             {
@@ -127,7 +127,10 @@ async def extract_pdf(file: UploadFile = File(...)):
     response_text = re.sub(r"^```(?:json)?\s*", "", response_text)
     response_text = re.sub(r"\s*```$", "", response_text)
 
-    return json.loads(response_text)
+    try:
+        return json.loads(response_text)
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"JSON parse chyba: {e} | Response: {response_text[:300]}")
 
 
 @app.post("/generate-pdf")
@@ -173,7 +176,7 @@ async def process(
     # 1. Extrakcia cez Claude API
     message = await client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1024,
+        max_tokens=4096,
         system=EXTRACTION_SYSTEM,
         messages=[{
             "role": "user",
@@ -185,7 +188,10 @@ async def process(
     response_text = message.content[0].text.strip()
     response_text = re.sub(r"^```(?:json)?\s*", "", response_text)
     response_text = re.sub(r"\s*```$", "", response_text)
-    extrahovane = json.loads(response_text)
+    try:
+        extrahovane = json.loads(response_text)
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"JSON parse chyba: {e} | Response: {response_text[:300]}")
 
     # Doplň slovenský názov produktu
     slovensky_nazov, _, _, _ = zisti_produkt(extrahovane.get("typ_produktu", ""))
