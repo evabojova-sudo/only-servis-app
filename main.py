@@ -80,6 +80,52 @@ Vráť LEN čistý JSON bez akéhokoľvek ďalšieho textu alebo markdown formá
 
 EXTRACTION_SYSTEM = [{"type": "text", "text": EXTRACTION_PROMPT, "cache_control": {"type": "ephemeral"}}]
 
+EMAIL_PROMPT = """Napíš stručný a profesionálny sprievodný e-mail k cenovej ponuke pre zákazníka firmy only servis. Dodrž tieto pravidlá:
+- Začni presne textom: Dobrý deň,
+- Použi formálny, stručný a priateľský tón.
+- Uveď, že v prílohe posielaš cenovú ponuku alebo viac cenových ponúk.
+- Pri každej ponuke uveď: presný názov súboru, krátky popis obsahu ponuky, najdôležitejšie parametre produktu, či je v cene montáž, doprava, servis, demontáž, ovládač alebo iné služby, celkovú cenu s DPH.
+- Nepíš zbytočné detaily.
+- Na konci vždy napíš: V prípade otázok alebo záujmu o realizáciu ma neváhajte kontaktovať. Ďakujem a prajem príjemný deň. only servis
+- Ak je ponuka jedna, použi jednu odrážku. Ak je ponúk viac, použi prehľadný zoznam s odrážkami.
+- Výstup má byť hotový e-mail bez vysvetľovania."""
+
+
+async def _generuj_email_body(polozky_info: list[dict]) -> str:
+    """Generuje text emailu pomocou Claude API na základe dát ponúk."""
+    riadky = []
+    for p in polozky_info:
+        riadok = f"Súbor: {p['pdf_filename']}\n"
+        riadok += f"Produkt: {p.get('slovensky_nazov') or p.get('typ_produktu') or '–'}"
+        if p.get("pocet_ks"):
+            riadok += f", {p['pocet_ks']} ks"
+        if p.get("rozmery"):
+            riadok += f", {p['rozmery']}"
+        priplatky = p.get("priplatky") or []
+        if priplatky:
+            sluzby = ", ".join(pr["nazov"] for pr in priplatky if pr.get("nazov"))
+            if sluzby:
+                riadok += f"\nSlužby v cene: {sluzby}"
+        cena = p.get("cena_s_dph")
+        if cena:
+            riadok += f"\nCena s DPH: {float(cena):.2f} €"
+        if p.get("poznamka"):
+            riadok += f"\nPoznámka: {p['poznamka']}"
+        riadky.append(riadok)
+
+    user_msg = "\n\n".join(riadky)
+    try:
+        msg = await client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=512,
+            system=EMAIL_PROMPT,
+            messages=[{"role": "user", "content": user_msg}],
+        )
+        return msg.content[0].text.strip()
+    except Exception as e:
+        print(f"[EMAIL AI] Chyba pri generovaní emailu: {e}")
+        return ""
+
 
 @app.get("/", include_in_schema=False)
 def root():
@@ -274,6 +320,18 @@ async def send_ponuka(req: SendPonukaRequest):
     if not os.getenv("GMAIL_SENDER"):
         raise HTTPException(status_code=500, detail="Email odosielanie nie je nakonfigurované")
 
+    email_body = await _generuj_email_body([{
+        "pdf_filename": pdf_filename,
+        "slovensky_nazov": data.get("slovensky_nazov"),
+        "typ_produktu": data.get("typ_produktu"),
+        "pocet_ks": data.get("pocet_ks"),
+        "rozmery": (f"{int(data['rozmer_sirka_cm'])} x {int(data['rozmer_vyska_cm'])} cm"
+                    if data.get("rozmer_sirka_cm") and data.get("rozmer_vyska_cm") else ""),
+        "priplatky": data.get("priplatky") or [],
+        "cena_s_dph": data.get("cena_s_dph"),
+        "poznamka": data.get("poznamka"),
+    }])
+
     try:
         posli_ponuku(
             email_zakaznika=email,
@@ -281,6 +339,7 @@ async def send_ponuka(req: SendPonukaRequest):
             zakaznik_meno=data.get("zakaznik_meno", ""),
             pdf_bytes=pdf_bytes,
             pdf_filename=pdf_filename,
+            email_body=email_body,
         )
     except Exception as e:
         print(f"[EMAIL] Chyba: {e}")
@@ -324,11 +383,27 @@ async def send_zakazka(req: SendZakazkaRequest):
 
     zakaznik_meno = req.ponuky[0].get("zakaznik_meno", "")
 
+    polozky_info = []
+    for pdf_bytes, pdf_filename, data in polozky:
+        polozky_info.append({
+            "pdf_filename": pdf_filename,
+            "slovensky_nazov": data.get("slovensky_nazov"),
+            "typ_produktu": data.get("typ_produktu"),
+            "pocet_ks": data.get("pocet_ks"),
+            "rozmery": (f"{int(data['rozmer_sirka_cm'])} x {int(data['rozmer_vyska_cm'])} cm"
+                        if data.get("rozmer_sirka_cm") and data.get("rozmer_vyska_cm") else ""),
+            "priplatky": data.get("priplatky") or [],
+            "cena_s_dph": data.get("cena_s_dph"),
+            "poznamka": data.get("poznamka"),
+        })
+    email_body = await _generuj_email_body(polozky_info)
+
     try:
         posli_zakazku(
             email_zakaznika=email,
             zakaznik_meno=zakaznik_meno,
             polozky=polozky,
+            email_body=email_body,
         )
     except Exception as e:
         print(f"[EMAIL] Chyba: {e}")
