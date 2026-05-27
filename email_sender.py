@@ -11,8 +11,7 @@ resend.api_key = os.getenv("RESEND_API_KEY", "")
 SENDER = os.getenv("GMAIL_SENDER", "onboarding@resend.dev")
 
 PODPIS = """\nS pozdravom,
-Machala Roman
-only servis s.r.o.
+machala roman
 Tel: 0903 533 534
 info@onlyservis.sk"""
 
