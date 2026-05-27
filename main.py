@@ -188,7 +188,7 @@ async def process(
     extrahovane = json.loads(response_text)
 
     # Doplň slovenský názov produktu
-    slovensky_nazov, _, _ = zisti_produkt(extrahovane.get("typ_produktu", ""))
+    slovensky_nazov, _, _, _ = zisti_produkt(extrahovane.get("typ_produktu", ""))
     extrahovane["slovensky_nazov"] = slovensky_nazov
 
     # 2. Generovanie PDF ponuky Only Servis
