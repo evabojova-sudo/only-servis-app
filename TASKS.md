@@ -22,35 +22,26 @@
 
 ## 📋 Nové úlohy (poradie záväzné)
 
-### 1. ⬜ BUG: poznámka — stratené riadkovanie
+### 1. ✅ BUG: poznámka — stratené riadkovanie
 **Súbor:** templates/ponuka.html
 Poznámka extrahovaná z Climax PDF sa zobrazuje ako jeden riadok. Zachovaj pôvodné riadkové zlomy tak ako sú v zdrojovom texte.
 
-### 2. ⬜ NOVÁ FUNKCIONALITA: podpora pre ponuky typu komponenty
+### 2. ✅ NOVÁ FUNKCIONALITA: podpora pre ponuky typu komponenty — 26.5.2026
 **Súbory:** extract prompt, pdf_generator.py, templates/ponuka.html
-Ponuky kde namiesto jedného produktu je zoznam položiek (napr. sieťovina, guma) aktuálne padajú alebo zobrazujú "None".
+Hotovo: extrakcia polozky[], je_komponenty flag, tabuľka komponentov v PDF.
+Fix: col_count=6 pre komponenty CNs — príplatky sekcia zarovnaná na plnú šírku.
 
-Čo treba urobiť:
-1. V extract prompte pridaj extrakciu poľa "polozky" — JSON array kde každá položka má: nazov, pocet, jednotka, cena_ks, cena_riadok
-2. V pdf_generator.py: ak ponuka obsahuje "polozky" a typ_produktu je None, zobraz tabuľku položiek namiesto riadku produktu
-3. V ponuka.html: pridaj tabuľku so stĺpcami Názov | Počet | Jednotka | Cena/ks | Cena za riadok — štýl konzistentný so zvyškom šablóny
-4. Existujúca logika pre bežné ponuky musí zostať funkčná
-
-Otestuj s CP_TXT_08052026_Elexieva_EXT16_oprava.pdf
-
-### 3. ⬜ VIZUÁL: zmenšiť text v hlavičke
+### 3. ✅ VIZUÁL: zmenšiť text v hlavičke — 26.5.2026
 **Súbor:** templates/ponuka.html
-Text firemných údajov v hlavičke má byť menší ako hlavný text ponuky.
+Hotovo: .hdr-firma 13pt→10pt, .hdr-right 11pt→9pt.
 
-### 4. ⬜ VIZUÁL: QR kód — WhatsApp dizajn
-**Súbory:** templates/ponuka.html, pdf_generator.py
-Pod QR kód pridaj popisok "Napíšte nám na WhatsApp". QR kód má byť rovnako veľký ako logo Only Servis — nie väčší. Umiestnenie zostáva ako je.
+### 4. ✅ VIZUÁL: QR kód — WhatsApp dizajn — 26.5.2026
+Hotovo: QR 60pt→45pt (rovnaká výška ako logo), popisok "Napíšte nám na WhatsApp" pod QR kódom.
 
-### 5. ⬜ VIZUÁL: poznámka a záverečný text na samostatnú stranu
-**Súbor:** templates/ponuka.html
-Poznámka a záverečný text (podmienky) musia byť na samostatnej strane na konci PDF.
+### 5. ✅ VIZUÁL: záverečný text na samostatnú stranu — 26.5.2026
+Hotovo: page-break-before na .podmienky div — statický záverečný blok vždy začína na novej strane. Extrahovaná poznámka zostáva pred súhrnom.
 
-### 6. ⬜ OBSAH: texty produktov
+### 6. ✅ OBSAH: texty produktov — 27.5.2026
 **Súbor:** templates/ponuka.html
 Vlož texty produktov do šablóny. Každý text obsahuje úvodný odsek aj bullet pointy — zobraz oboje, oddelené čiarou. Mapovanie na typ_produktu už existuje v kóde.
 
@@ -166,7 +157,20 @@ Vnútorné látkové tienenie je dekoratívny aj praktický prvok každého domo
 - Vyhotovenie presne na mieru pre každý typ okna alebo dverí
 Záruka 4 roky. Typy: látkové rolety, vertikálne žalúzie.
 
-### 7. ⬜ OBSAH: záverečný text — informačné podmienky
+### 6b. ⬜ OVERENIE: výpočet a zobrazenie zliav
+**Súbory:** main.py (extraction prompt), pdf_generator.py, templates/ponuka.html
+Otestovať na reálnej CN s zľavou (napr. Lukáčková Z90io).
+
+Čo treba overiť:
+1. Extrakcia: `cena_bez_dph` = cena PRED zľavou, `zlava_suma` = správna suma, `cena_po_zlave` = cena po zľave
+2. Príplatky: `suma` = celková (nie jednotková) cena za položku
+3. PDF súhrn: zobrazuje riadky "Cena pred zľavou / Zľava X% / Spolu bez DPH"
+4. Výsledná cena s DPH = správna hodnota zhodná s originálom
+
+Ak extrakcia stále vracia nesprávne hodnoty, upresniť prompt ďalej.
+
+### 7. ✅ OBSAH: záverečný text — informačné podmienky — 27.5.2026
+Hotovo: nahradený starý text (Poznámka/GDPR/DÔLEŽITÉ!) novými 8 sekciami "Informačné podmienky k cenovej ponuke". Fix page-break-after: avoid na nadpisoch sekcií.
 **Súbor:** templates/ponuka.html
 Nahraď aktuálnu sekciu (Poznámka / GDPR / DÔLEŽITÉ!) novou samostatnou stranou s nadpisom "Informačné podmienky k cenovej ponuke" a týmto textom:
 
@@ -196,7 +200,12 @@ Cenová ponuka nezahŕňa zriadenie nového elektrického napájania, úpravu ex
 
 Strana má mať menší font ako zvyšok PDF, profesionálny vzhľad, konzistentný so šablónou.
 
-### 8. ⬜ OBSAH: šablóna emailu
+### 8. ✅ OBSAH: šablóna emailu — 27.5.2026
+Hotovo: Claude generuje text emailu automaticky, bez markdownu. Fallback na starý text ak AI zlyhá.
+⚠️ Čaká na vyjadrenie Romana: chce v podpise len "only servis" alebo celý podpis (Roman Machala, only servis, tel, email)?
+Aktuálny podpis: "S pozdravom, Machala Roman, only servis s.r.o., Tel: 0903 533 534, info@onlyservis.sk"
+
+### 8b. ⬜ PODPIS EMAILU: čaká na Romana
 **Súbory:** main.py alebo email_sender.py
 Nahraď existujúci email prompt týmto systémovým promptom:
 
