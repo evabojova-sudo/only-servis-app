@@ -86,7 +86,7 @@ EMAIL_PROMPT = """Napíš stručný a profesionálny sprievodný e-mail k cenove
 - Uveď, že v prílohe posielaš cenovú ponuku alebo viac cenových ponúk.
 - Pri každej ponuke uveď: presný názov súboru, krátky popis obsahu ponuky, najdôležitejšie parametre produktu, či je v cene montáž, doprava, servis, demontáž, ovládač alebo iné služby, celkovú cenu s DPH.
 - Nepíš zbytočné detaily.
-- Na konci vždy napíš: V prípade otázok alebo záujmu o realizáciu ma neváhajte kontaktovať. Ďakujem a prajem príjemný deň. only servis
+- Na konci vždy napíš: V prípade otázok alebo záujmu o realizáciu ma neváhajte kontaktovať. Ďakujem a prajem príjemný deň.
 - Ak je ponuka jedna, použi jednu odrážku. Ak je ponúk viac, použi prehľadný zoznam s odrážkami.
 - Výstup má byť hotový e-mail bez vysvetľovania.
 - Nepoužívaj žiadne markdown formátovanie — žiadne hviezdičky, podčiarkovníky ani iné špeciálne znaky. Iba čistý text."""

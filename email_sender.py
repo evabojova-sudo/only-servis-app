@@ -12,6 +12,7 @@ SENDER = os.getenv("GMAIL_SENDER", "onboarding@resend.dev")
 
 PODPIS = """\nS pozdravom,
 machala roman
+only servis
 Tel: 0903 533 534
 info@onlyservis.sk"""
 
