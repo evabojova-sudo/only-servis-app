@@ -61,14 +61,14 @@ Polia ktoré musíš extrahovať:
 - pocet_ks: počet kusov (integer)
 - rozmer_sirka_cm: šírka v cm (number alebo null)
 - rozmer_vyska_cm: výška v cm (number alebo null)
-- cena_bez_dph: cena bez DPH (number)
+- cena_bez_dph: PÔVODNÁ cena bez DPH PRED zľavou (number). Ak je v CN zľava, toto je cena pred odpočítaním zľavy — nie cena po zľave.
 - zlava_percent: zľava v percentách (number alebo null)
-- zlava_suma: suma zľavy (number alebo null)
-- cena_po_zlave: cena po zľave pred DPH (number alebo null)
+- zlava_suma: suma zľavy v EUR (number alebo null). Ak nie je výslovne v PDF, vypočítaj: round(cena_bez_dph × zlava_percent / 100, 2).
+- cena_po_zlave: cena po zľave pred DPH (number alebo null). = cena_bez_dph - zlava_suma. Ak nie je zľava, vráť null.
 - dph_percent: sadzba DPH v percentách (number)
 - dph_suma: suma DPH (number)
 - cena_s_dph: finálna cena s DPH (number)
-- priplatky: JSON array objektov {nazov: string, suma: number} pre všetky príplatky (Montáž, Doprava, atď.)
+- priplatky: JSON array objektov {nazov: string, suma: number} pre všetky príplatky (Montáž, Doprava, atď.). DÔLEŽITÉ: suma = CELKOVÁ suma za danú položku (počet × cena za kus). Nie cena za kus.
 - poznamka: Hľadaj sekciu označenú ako "Poznámka:" alebo "Poznámky:". Extrahuj IBA text ktorý Roman napísal — teda text ktorý nasleduje bezprostredne po slove "Poznámka:" a KONČÍ pred vetou ktorá začína slovami "Termín dodania je udávaný" alebo "Zákonným dôvodom" alebo "Záruka 24". Ak takáto sekcia neexistuje alebo je prázdna, vráť null.
 - polozky: JSON array všetkých riadkov z tabuľky produktov alebo komponentov. Pre každý riadok extrahuj:
   { "poradove_cislo": integer, "nazov": string alebo null, "popis": string alebo null, "sirka_cm": number alebo null, "vyska_cm": number alebo null, "pocet_ks": number, "jednotka": string alebo null, "cena_ks": number, "cena_riadok": number alebo null }

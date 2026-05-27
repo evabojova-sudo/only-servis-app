@@ -233,6 +233,18 @@ def generuj_pdf(data: dict) -> bytes:
         zlava_str = f"{int(data['zlava_percent'])}%  -  {data.get('zlava_suma') or 0:.2f} €"
 
     suhrn_bez_dph_base = data.get("cena_po_zlave") or data.get("cena_bez_dph") or 0
+
+    # Zľava — zobrazenie v súhrne (cena pred zľavou + suma zľavy)
+    _zlava_percent_num = data.get("zlava_percent") or 0
+    _cena_bez_dph_raw = data.get("cena_bez_dph") or 0
+    _cena_po_zlave_raw = data.get("cena_po_zlave") or 0
+    _zlava_suma_num = data.get("zlava_suma") or 0
+    # Fallback: ak cena_bez_dph > cena_po_zlave, rozdiel = suma zľavy
+    if _zlava_percent_num and not _zlava_suma_num and _cena_bez_dph_raw > _cena_po_zlave_raw > 0:
+        _zlava_suma_num = round(_cena_bez_dph_raw - _cena_po_zlave_raw, 2)
+    ma_zlavu = bool(_zlava_percent_num) and _zlava_suma_num > 0
+    cena_pred_zlavou_str = f"{_cena_bez_dph_raw:.2f} €" if ma_zlavu else ""
+    zlava_suma_display_str = f"{_zlava_suma_num:.2f} €" if ma_zlavu else ""
     dph_percent = int(data.get("dph_percent") or 23)
 
     # priplatky_v_cene = príplatky už zahrnuté v cena_po_zlave (z extrakcie PDF)
@@ -267,6 +279,10 @@ def generuj_pdf(data: dict) -> bytes:
         rozmery=rozmery,
         cena_bez_dph_str=f"{produkt_bez_dph:.2f} €",
         zlava_str=zlava_str,
+        ma_zlavu=ma_zlavu,
+        zlava_percent_disp=int(_zlava_percent_num) if _zlava_percent_num else 0,
+        cena_pred_zlavou_str=cena_pred_zlavou_str,
+        zlava_suma_display_str=zlava_suma_display_str,
         cena_s_dph_str=f"{produkt_s_dph:.2f} €",
         ma_priplatky=len(priplatky) > 0,
         priplatky=priplatky,
