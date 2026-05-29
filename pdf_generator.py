@@ -297,11 +297,7 @@ def generuj_pdf(data: dict) -> bytes:
     priplatky_suma = sum(p.get("suma", 0) for p in priplatky)
 
     polozky = data.get("polozky") or []
-    je_komponenty = (
-        not data.get("typ_produktu")
-        and bool(polozky)
-        and not any(p.get("sirka_cm") for p in polozky)
-    )
+    je_komponenty = bool(polozky) and not any(p.get("sirka_cm") for p in polozky)
     ma_popis_col = any(p.get("popis") for p in polozky)
     ma_rozmery_col = any(p.get("sirka_cm") for p in polozky)
     col_count = (2 + (1 if ma_popis_col else 0) + (1 if ma_rozmery_col else 0)) if polozky else 6

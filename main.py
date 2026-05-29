@@ -57,7 +57,7 @@ Polia ktoré musíš extrahovať:
 - zakaznik_meno: priezvisko alebo meno zákazníka
 - zakaznik_mesto: mesto zákazníka
 - datum_ponuky: dátum ponuky vo formáte DD.MM.YYYY
-- typ_produktu: kód produktu (napr. "Z-90-NOVAL"). VÝNIMKA: Ak nadpis/záhlaví dokumentu obsahuje slovo "sítí" (napr. "Cenová nabídka sítí") a tabuľka neobsahuje stĺpec s kódom produktu — extrahuj kód zo suffixu čísla nabídky za poslednou podčiarkovníkovou (napr. "29052026_Kruzel_s36" → "s36", "29052026_Kruzel_ROLO DS" → "ROLO DS"). Táto výnimka platí VÝHRADNE pre dokumenty so slovom "sítí" v nadpise. Pre "Nabídka Komponenty", servisné CN a všetky ostatné typy nastav typ_produktu = null — NIKDY nekopíruj suffix z čísla nabídky.
+- typ_produktu: kód produktu z tabuľky (napr. "Z-90-NOVAL", "Dveřní EXTRA"). Extrahuj IBA ak je explicitne uvedený v tabuľke ako kód alebo typ výrobku. Ak tabuľka neobsahuje stĺpec s kódom produktu, vráť null. NIKDY neextrahuj typ_produktu zo suffixu čísla nabídky.
 - pocet_ks: počet kusov (integer)
 - rozmer_sirka_cm: šírka v cm (number alebo null)
 - rozmer_vyska_cm: výška v cm (number alebo null)
