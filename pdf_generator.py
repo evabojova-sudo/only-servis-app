@@ -79,11 +79,11 @@ PRODUKT_MAPA = {
             "s36", "s25",
         ],
         "popis": (
-            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
-            "Nekazí výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
+            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a peľovými alergiami. "
+            "Nekazia výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
             "V ponuke sú pevné, rolovacie, dverné, posuvné aj plisé varianty pre každý typ otvoru.\n"
             "- Spoľahlivo bránia vstupu hmyzu do interiéru – pokojný spánok bez komárov a mušiek\n"
-            "- Špeciálna protipylová sieťovina – ideálna pre alergikov na peľ\n"
+            "- Špeciálna protipeľová sieťovina – ideálna pre alergikov na peľ\n"
             "- Neblokujú výhľad ani prúdenie vzduchu – okno funguje bežným spôsobom\n"
             "- Rolovacie varianty sa rýchlo stiahnu do boxu, keď sieť nepotrebujete\n"
             "- Dverná sieť s magnetom a samozatváracím systémom – praktická pri rušných vstupoch\n"
@@ -103,11 +103,11 @@ PRODUKT_MAPA = {
             "ds extra", "rolo ds", "rolo dveřní", "rolo dverni",
         ],
         "popis": (
-            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
-            "Nekazí výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
+            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a peľovými alergiami. "
+            "Nekazia výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
             "V ponuke sú pevné, rolovacie, dverné, posuvné aj plisé varianty pre každý typ otvoru.\n"
             "- Spoľahlivo bránia vstupu hmyzu do interiéru – pokojný spánok bez komárov a mušiek\n"
-            "- Špeciálna protipylová sieťovina – ideálna pre alergikov na peľ\n"
+            "- Špeciálna protipeľová sieťovina – ideálna pre alergikov na peľ\n"
             "- Neblokujú výhľad ani prúdenie vzduchu – okno funguje bežným spôsobom\n"
             "- Rolovacie varianty sa rýchlo stiahnu do boxu, keď sieť nepotrebujete\n"
             "- Dverná sieť s magnetom a samozatváracím systémom – praktická pri rušných vstupoch\n"
