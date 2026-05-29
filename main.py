@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from database import init_db, uloz_ponuku, oznac_email_odoslany
+from database import init_db
 from email_sender import posli_ponuku, posli_zakazku
 try:
     from pdf_generator import generuj_pdf, zisti_produkt
@@ -250,18 +250,10 @@ async def process(
     output_pdf = generuj_pdf(extrahovane)
     output_pdf_b64 = base64.standard_b64encode(output_pdf).decode("utf-8")
 
-    # 3. Uloženie do DB (ak je DATABASE_URL nastavené)
-    db_ids = {}
-    if os.getenv("DATABASE_URL"):
-        try:
-            db_ids = uloz_ponuku(extrahovane, email_zakaznika or None)
-        except Exception as e:
-            print(f"[DB] Chyba pri ukladaní: {e}")
-
     cislo = extrahovane.get("cislo_ponuky", "ponuka").replace("/", "_")
     pdf_filename = f"OnlyServis_{cislo}.pdf"
 
-    # 4. Odoslanie emailu (ak je zadaná adresa)
+    # 3. Odoslanie emailu (ak je zadaná adresa)
     email_odoslany = False
     if email_zakaznika and os.getenv("GMAIL_SENDER"):
         try:
@@ -273,8 +265,6 @@ async def process(
                 pdf_filename=pdf_filename,
             )
             email_odoslany = True
-            if db_ids.get("ponuka_id"):
-                oznac_email_odoslany(db_ids["ponuka_id"])
         except Exception as e:
             print(f"[EMAIL] Chyba pri odoslaní: {e}")
 
@@ -282,7 +272,7 @@ async def process(
         "extrahovane": extrahovane,
         "pdf_filename": pdf_filename,
         "pdf_base64": output_pdf_b64,
-        "db": db_ids,
+        "db": {},
         "email_odoslany": email_odoslany,
     }
 
