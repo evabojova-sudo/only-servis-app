@@ -205,7 +205,7 @@ Hotovo: Claude generuje text emailu automaticky, bez markdownu. Fallback na star
 ⚠️ Čaká na vyjadrenie Romana: chce v podpise len "only servis" alebo celý podpis (Roman Machala, only servis, tel, email)?
 Aktuálny podpis: "S pozdravom, Machala Roman, only servis s.r.o., Tel: 0903 533 534, info@onlyservis.sk"
 
-### 8b. ⬜ PODPIS EMAILU: čaká na Romana
+### 8b. ✅ PODPIS EMAILU: vyriešené — 29.5.2026
 **Súbory:** main.py alebo email_sender.py
 Nahraď existujúci email prompt týmto systémovým promptom:
 
