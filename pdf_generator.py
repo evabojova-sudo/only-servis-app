@@ -130,6 +130,24 @@ PRODUKT_MAPA = {
             "Záruka 4 roky. Chráni záhradný nábytok pred UV žiarením a predlžuje jeho životnosť."
         ),
     },
+    "markizy_gardena": {
+        "nazov": "Markízy",
+        "obrazok": "markizy_gardena.jpg",
+        "klucove_slova": ["gardena"],
+        "popis": (
+            "Gardena 350 je robustná kazetová markíza s hlbokým boxom 350 mm, určená pre náročných zákazníkov, "
+            "ktorí hľadajú spoľahlivé a elegantné riešenie pre veľkú terasu. "
+            "Motorika Somfy io zaručuje pohodlné ovládanie a možnosť prepojenia so smart home systémom.\n"
+            "- Šírka až 600 cm v jednodielnom prevedení – pokryje veľkú terasu rodinného domu jedným ťahom\n"
+            "- Hlboká kazeta (box 350 mm) chráni látku pred dažďom, prachom a UV žiarením počas zrolovania\n"
+            "- Motorické ovládanie Somfy io – diaľkový ovládač, mobilný telefón alebo riadiaca automatika\n"
+            "- Možnosť doplniť o senzor slnka a vetra – automatické zrolovanie pri silnom vetre alebo búrke\n"
+            "- Bohatý výber akrylátových látok odolných voči vyblednutiu a plesniam\n"
+            "- Dostupná v mnohých farbách konštrukcie vrátane RAL odtieňov podľa požiadavky\n"
+            "- Certifikované komponenty európskej výroby – dlhá životnosť a overená spoľahlivosť\n"
+            "Záruka 4 roky na výrobok, 5 rokov na motor Somfy."
+        ),
+    },
     "pergoly": {
         "nazov": "Pergoly",
         "obrazok": "pergoly.jpg",
@@ -146,6 +164,25 @@ PRODUKT_MAPA = {
             "- Voliteľné senzory slnka, vetra a dažďa – pergola automaticky reaguje na počasie\n"
             "- 6 základných farieb + možnosť lakovania v ľubovoľnom odtieni RAL\n"
             "Záruka 4 roky na výrobok, 5 rokov na motor Somfy/Geiger. Odolnosť voči vetru trieda 6 Beaufortovej stupnice."
+        ),
+    },
+    "pergoly_vitalia": {
+        "nazov": "Pergoly",
+        "obrazok": "pergoly_vitalia.jpg",
+        "klucove_slova": ["vitalia"],
+        "popis": (
+            "Vitalia je pergola s pevnou hliníkovou konštrukciou a sťahujúcou sa PVC strechou, "
+            "ktorá terasu premení na plnohodnotný pobytový priestor. "
+            "Chráni pred slnkom aj ľahkým dažďom a predlžuje sezónu na terase. "
+            "Vyrába sa na mieru – šírky od 150 do 1 300 cm.\n"
+            "- Chráni pred slnkom aj ľahkým dažďom – terasa ostáva využiteľná aj pri menšej nepohode\n"
+            "- Predlžuje sezónu na terase – naplno ju využijete od jari do neskorej jesene\n"
+            "- Pevná hliníková konštrukcia je odolná voči poveternostným vplyvom a nevyžaduje žiadnu údržbu\n"
+            "- Vodoodolné PVC látky v základných farbách, možnosť polopriesvitnej varianty\n"
+            "- Motorické ovládanie elektromotorom 230V – diaľkový ovládač alebo systém Tahoma\n"
+            "- Voliteľný senzor slnka, vetra alebo dažďa – automatické stiahnutie strechy pri nepohode\n"
+            "- Možnosť integrovaného LED osvetlenia HDD LUX so stmievačom pre večerné posedenie\n"
+            "Záruka 4 roky. Kotvenie na stenu aj voľne stojace na betónových pätkách."
         ),
     },
     "vnutorne_zaluzie": {
