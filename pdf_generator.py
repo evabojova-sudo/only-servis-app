@@ -18,16 +18,56 @@ PRODUKT_MAPA = {
         "nazov": "Vonkajšie žalúzie",
         "obrazok": "vonkajsie_zaluzie.jpg",
         "klucove_slova": ["z-90", "z-70", "t-80", "c-80", "c-60", "f-80", "ext-50", "protal"],
+        "popis": (
+            "Vonkajšie žalúzie zastavujú slnečné lúče ešte pred oknami – tam, kde to robí najväčší rozdiel. "
+            "Vďaka naklopeniu lamiel môžete vetrať a pritom plynule regulovať množstvo svetla aj teplotu v interiéri. "
+            "Sú funkčným aj estetickým doplnkom každého rodinného domu či kancelárskej budovy.\n"
+            "- V lete zabraňujú prehrievaniu interiéru – teplota v miestnosti môže klesnúť o niekoľko stupňov Celzia\n"
+            "- V zime fungujú ako ďalšia vrstva tepelnej izolácie okna a šetria náklady na kúrenie\n"
+            "- Umožňujú vetranie otvoreným oknom pri zachovaní regulácie svetla a súkromia\n"
+            "- Chránia vaše súkromie – zvonku nikto nevidí dnu, vy vidíte von\n"
+            "- Spoľahlivo chránia okno pred prudkým dažďom, vetrom, krupobitím a UV žiarením\n"
+            "- Bezpečnostný efekt – sú neľahkou prekážkou pri pokuse o neoprávnené vniknutie\n"
+            "- Široký výber modelov (Z-90 Noval, Z-70, T-80, C-80, C-60, F-80, PROTAL a ďalšie) a farieb lamiel\n"
+            "Záruka 4 roky. Montáž zabezpečujeme v Bratislavskom a Trnavskom kraji."
+        ),
     },
     "vonkajsie_rolety": {
         "nazov": "Vonkajšie rolety",
         "obrazok": "vonkajsie_rolety.jpg",
         "klucove_slova": ["m 328", "m 317", "m 442", "mpvc"],
+        "popis": (
+            "Vonkajšie rolety neprepustia slnečné lúče a doprajú vám ničím nerušený spánok. "
+            "Blokujú až 100 % slnečného žiarenia ešte pred sklom, čím v lete výrazne znižujú teplotu v interiéri "
+            "a v zime fungujú ako tepelná izolácia. Vyrábajú sa z kvalitných hliníkových alebo PVC lamiel presne na mieru.\n"
+            "- 100 % zatienenie interiéru – pre dokonalý spánok a odpočinok kedykoľvek počas dňa\n"
+            "- V lete výrazne znižujú teplotu v miestnosti a šetria náklady na klimatizáciu\n"
+            "- V zime tvoria ďalšiu vrstvu tepelnej izolácie okna – preukázateľná úspora na vykurovaní\n"
+            "- Znižujú hluk z okolia – vhodné pre rušné ulice a mestské lokality\n"
+            "- Chránia okno pred dažďom, krupobitím a silným vetrom\n"
+            "- Poistka proti vytiahnutiu sťažuje neoprávnený vstup – aktívna bezpečnostná ochrana\n"
+            "- Možnosť doplniť o integrovanú sieť proti hmyzu a motorické ovládanie Somfy (systém Tahoma)\n"
+            "Záruka 4 roky na výrobok, 5 rokov na motory Somfy."
+        ),
     },
     "screenove_rolety": {
         "nazov": "Screenové rolety",
         "obrazok": "screenove_rolety.jpg",
         "klucove_slova": ["unirol", "sunrol", "v-rol"],
+        "popis": (
+            "Screenové rolety predstavujú trend vo vonkajšom tienení posledných rokov. "
+            "Nielenže výborne tienia, ale vďaka veľkej farebnej škále látok aj konštrukcií skvele vyzerajú "
+            "a dodávajú fasáde moderný vzhľad. Na výber sú systémy s vedením v lanku, lište alebo so zipom "
+            "pre maximálnu odolnosť voči vetru.\n"
+            "- Výborne tienia a znižujú tepelnú záťaž – interiér ostáva chladný aj v horúcich letných dňoch\n"
+            "- Umožňujú súčasne tieniť aj vetrať pri otvorenom okne – bez kompromisov\n"
+            "- Zachovávajú výhľad von – zvnútra vidíte, zvonka nie\n"
+            "- ZIP systém zvyšuje odolnosť voči vetru a zabraňuje prenikaniu svetla cez okraje clony\n"
+            "- Moderný estetický vzhľad – dostupné v širokej škále farieb a typov látok (akryl, black-out)\n"
+            "- Látky sú UV stabilné, impregnované a ľahko udržiavateľné\n"
+            "- Motorické ovládanie Somfy s možnosťou automatizácie podľa intenzity slnečného žiarenia\n"
+            "Záruka 4 roky. Systémy: UNIROL, SUNROL, V-ROL s vedením v lanku, lište alebo ZIP."
+        ),
     },
     "okenne_siete": {
         "nazov": "Siete proti hmyzu (okenné)",
@@ -37,6 +77,19 @@ PRODUKT_MAPA = {
             "rolo magnet", "síť 25", "síť 36", "sit 25", "sit 36",
             "rolo hák", "rolo klik",
         ],
+        "popis": (
+            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
+            "Nekazí výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
+            "V ponuke sú pevné, rolovacie, dverné, posuvné aj plisé varianty pre každý typ otvoru.\n"
+            "- Spoľahlivo bránia vstupu hmyzu do interiéru – pokojný spánok bez komárov a mušiek\n"
+            "- Špeciálna protipylová sieťovina – ideálna pre alergikov na peľ\n"
+            "- Neblokujú výhľad ani prúdenie vzduchu – okno funguje bežným spôsobom\n"
+            "- Rolovacie varianty sa rýchlo stiahnu do boxu, keď sieť nepotrebujete\n"
+            "- Dverná sieť s magnetom a samozatváracím systémom – praktická pri rušných vstupoch\n"
+            "- Možnosť dvierok pre psa alebo mačku – špeciálny priechod priamo v dvernej sieti\n"
+            "- Hliníkový rám vo farbách RAL – farebne zladiteľný s oknami alebo fasádou\n"
+            "Záruka 4 roky. Vhodné pre plastové, hliníkové aj drevené okná a dvere."
+        ),
     },
     "dverne_siete": {
         "nazov": "Siete proti hmyzu (dverné)",
@@ -45,16 +98,51 @@ PRODUKT_MAPA = {
             "plisé", "plise", "posuvná", "posuvna",
             "ps r1", "ps r2", "dverní", "dverni",
         ],
+        "popis": (
+            "Posuvné dverné siete umožňujú pohodlný prechod bez použitia rúk. "
+            "Automatické zatváranie zabraňuje prieniku hmyzu. Vhodné pre balkónové aj vstupné dvere.\n"
+            "- Pohodlný prechod bez použitia rúk – automatické zatváranie po každom prechode\n"
+            "- Spoľahlivá ochrana pred hmyzom pri otvorených dverách\n"
+            "- Hliníkový rám vo farbách RAL – farebne zladiteľný s dverami alebo fasádou\n"
+            "- Vhodné pre balkónové, terasové aj vstupné dvere\n"
+            "Záruka 4 roky. Vhodné pre plastové, hliníkové aj drevené dvere."
+        ),
     },
     "markizy": {
         "nazov": "Markízy",
         "obrazok": "markizy.jpg",
         "klucove_slova": ["prima t", "prima box", "noveta", "kaseta", "klasik"],
+        "popis": (
+            "Markíza je najrýchlejší spôsob, ako si na terase alebo balkóne vytvoriť tienistý kút. "
+            "Chráni pred priamym slnkom, zabraňuje prehrievaniu interiéru a predlžuje životnosť záhradného nábytku. "
+            "V ponuke sú kazetové aj otvorené markízy vo viac ako 100 farebných kombináciách.\n"
+            "- Vytvárajú príjemný tieň na terase, balkóne či záhrade – bez nutnosti stavebných úprav\n"
+            "- Zabraňujú prenikaniu slnečných lúčov do interiéru a znižujú teplotu vo vnútri domu\n"
+            "- Kazetová konštrukcia (box) chráni látku pred poveternostnými vplyvmi, keď markíza nie je v prevádzke\n"
+            "- Motorické ovládanie so senzorom vetra a slnka – markíza sa automaticky zroluje pri nepohode\n"
+            "- Látky sú impregnované, odolné voči plesniam a UV žiareniu – stálofarebné po celú dobu životnosti\n"
+            "- Maximálna šírka až 6,5 m a výsuv až 4 m – vhodné aj pre veľké terasy a reštaurácie\n"
+            "- Možnosť montáže na stenu, krokvy alebo strop – riešenie pre každý typ objektu\n"
+            "Záruka 4 roky. Chráni záhradný nábytok pred UV žiarením a predlžuje jeho životnosť."
+        ),
     },
     "pergoly": {
         "nazov": "Pergoly",
         "obrazok": "pergoly.jpg",
         "klucove_slova": ["lamelino"],
+        "popis": (
+            "Lamelino je prémiová bioklimatická pergola s otočnými hliníkovými lamelami, ktoré sa plynulo naklápajú "
+            "od 0° do 125°. Umožňujú presné riadenie tienenia, vetrania aj ochrany pred dažďom jedným ovládačom. "
+            "Je bezúdržbová a udrží zaťaženie až 1,5 tony na lamelách – rýdzo český výrobok.\n"
+            "- Otočné hliníkové lamely (0°–125°) regulujú svetlo, vzduch aj ochranu pred dažďom podľa aktuálnej potreby\n"
+            "- Dostupná v dvoch vyhotoveniach: Lamelino single (4 stojky) a Lamelino wall (kotvená do steny, 2 stojky)\n"
+            "- Hliníková konštrukcia nepodlieha korózii a nevyžaduje žiadnu údržbu po celú dobu životnosti\n"
+            "- Odtokový systém v stojkách odvedie dažďovú vodu mimo terasy – priestor ostáva suchý\n"
+            "- Motorické ovládanie 24V s diaľkovým ovládačom, automatikou alebo smart home systémom (Tahoma)\n"
+            "- Voliteľné senzory slnka, vetra a dažďa – pergola automaticky reaguje na počasie\n"
+            "- 6 základných farieb + možnosť lakovania v ľubovoľnom odtieni RAL\n"
+            "Záruka 4 roky na výrobok, 5 rokov na motor Somfy/Geiger. Odolnosť voči vetru trieda 6 Beaufortovej stupnice."
+        ),
     },
     "vnutorne_zaluzie": {
         "nazov": "Vnútorné žalúzie",
@@ -63,6 +151,19 @@ PRODUKT_MAPA = {
             "idx", "harmony", "super", "mono sc",
             "int-35", "int-50", "max 25", "max 21", "18 max", "18 idx",
         ],
+        "popis": (
+            "Vnútorné hliníkové žalúzie plynulo regulujú množstvo svetla v interiéri a chránia pred slnkom "
+            "aj zvedavými pohľadmi. Hodia sa takmer na akýkoľvek typ okna a lákajú cenovou dostupnosťou, "
+            "jednoduchou obsluhou aj nenáročnou údržbou. Ideálny doplnok k vonkajšiemu tieneniu.\n"
+            "- Plynulá regulácia svetla a súkromia – žalúzie otočíte i spustíte presne podľa potreby\n"
+            "- Cenovo dostupné tienenie vhodné pre byty, rodinné domy, kancelárie aj reštaurácie\n"
+            "- Hliníkové lamely šírky 25 mm, 35 mm alebo 50 mm – výber podľa typu okna a preferencie\n"
+            "- Detská poistka zabraňuje nebezpečnému omotaniu šnúry – bezpečnosť pre celú rodinu\n"
+            "- Minimálna údržba – jednoduché čistenie bežnou vlhkou utierkou\n"
+            "- Možnosť montáže na rám okna, do ostenia alebo do medziokenného priestoru\n"
+            "- Bohatý výber farieb a imitácií dreva – jednoduché ladenie s interiérom\n"
+            "Záruka 4 roky. Modely: IDX, MAX, Harmony, Super Eko, Mono SC, INT-35, INT-50."
+        ),
     },
     "latkove_tienenie": {
         "nazov": "Látkové tienenie",
@@ -71,6 +172,19 @@ PRODUKT_MAPA = {
             "varieta", "orion", "calypso", "apollo", "v-63",
             "fantazie", "vertikálne žalúzie", "verticalne zaluzie",
         ],
+        "popis": (
+            "Vnútorné látkové tienenie je dekoratívny aj praktický prvok každého domova. "
+            "Účinne reguluje množstvo svetla v miestnosti, dotvára atmosféru interiéru a je ideálnym doplnkom "
+            "k vonkajšiemu tieneniu. Vyberať môžete zo širokého množstva farieb, dekorov, typov látok i druhov tienenia.\n"
+            "- Plynulá regulácia denného svetla – od jemného pološera až po úplné zatemnenie\n"
+            "- Látkové rolety sú elegantným doplnkom pre byty, domy aj komerčné priestory\n"
+            "- Vertikálne žalúzie sú ideálne na francúzske okná, posuvné dvere a veľké presklené plochy\n"
+            "- Bohatý výber látok – priehľadné, polotienivé, zatemňujúce (black-out) aj dekorované\n"
+            "- Impregnované látky odpudzujú prach a sú ľahko udržiavateľné\n"
+            "- Vhodné ako doplnok k vonkajšiemu tieneniu – interiér dostane ucelený, harmonický vzhľad\n"
+            "- Vyhotovenie presne na mieru pre každý typ okna alebo dverí\n"
+            "Záruka 4 roky. Typy: látkové rolety, vertikálne žalúzie."
+        ),
     },
     "komponenty": {
         "nazov": "Komponenty / príslušenstvo",
@@ -80,6 +194,10 @@ PRODUKT_MAPA = {
             "guma zatlačovacia", "guma zatlac",
             "motor", "ovládač", "ovladac", "komponent", "nabídka komponenty",
         ],
+        "popis": (
+            "Motorické pohony, diaľkové ovládače, senzory a príslušenstvo pre tieniacu techniku. "
+            "Kompatibilné so systémami SOMFY a Climax. Profesionálna inštalácia a nastavenie."
+        ),
     },
 }
 
@@ -98,7 +216,7 @@ def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str | None, str]:
                 produkt["nazov"],
                 str(foto_path) if foto_path.exists() else None,
                 str(foto_detail_path) if foto_detail_path.exists() else None,
-                "",
+                produkt.get("popis", ""),
             )
     return typ_produktu, None, None, ""
 
