@@ -176,7 +176,28 @@
 
 <!-- TABULKA PRODUKTU -->
 <table class="tbl">
-  {% if je_komponenty %}
+  {% if je_servis %}
+  <tr>
+    <td class="tbl-th" style="width:3%;">Č.</td>
+    <td class="tbl-th" style="width:22%;">Typ výrobku</td>
+    <td class="tbl-th" style="width:18%;">Výrobok</td>
+    <td class="tbl-th">Popis opravy / úpravy</td>
+    <td class="tbl-th-r" style="width:5%;">Ks</td>
+    <td class="tbl-th-r" style="width:12%;">Cena/ks</td>
+    <td class="tbl-th-r" style="width:12%;">Cena</td>
+  </tr>
+  {% for p in polozky %}
+  <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}">
+    <td class="tbl-td">{{ p.poradove_cislo or loop.index }}</td>
+    <td class="tbl-td-b">{{ p.typ_vyrobku or '' }}</td>
+    <td class="tbl-td">{{ p.vyrobok or '' }}</td>
+    <td class="tbl-td">{{ p.oprava_1 or '' }}{% if p.oprava_2 %}, {{ p.oprava_2 }}{% endif %}{% if p.oprava_3 %}, {{ p.oprava_3 }}{% endif %}</td>
+    <td class="tbl-td-r">{{ p.pocet_ks }}</td>
+    <td class="tbl-td-r">{{ "%.2f"|format(p.cena_ks) }} &euro;</td>
+    <td class="tbl-td-r">{{ "%.2f"|format(p.cena_riadok or (p.pocet_ks * p.cena_ks)) }} &euro;</td>
+  </tr>
+  {% endfor %}
+  {% elif je_komponenty %}
   <tr>
     <td class="tbl-th" style="width:3%;">Č.</td>
     <td class="tbl-th">Názov komponentu</td>
