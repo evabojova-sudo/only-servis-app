@@ -43,6 +43,17 @@
 - [x] Bug: príplatková tabuľka servisných CNov bola užšia — 29.5.2026
       Fix: col_count=7 pre je_servis (7 stĺpcov), col_count=6 pre je_komponenty (6 stĺpcov).
 
+- [x] Bug: markíza PRIMAt_man — žiadny obrázok ani popis — 29.5.2026
+      Príčina: suffix "PRIMAt_man" → normalizovaný "primat man" → "prima t" nie je substring (chýba medzera).
+      Fix (pdf_generator.py): pridané kľúčové slová "primat", "primabox" do markizy kategórie.
+      Fix (main.py): extraction prompt — Claude preferuje hodnotu zo stĺpca "Typ markýzy"/"Typ"
+      pred suffixom (napr. extrahuje "Prima T" z tabuľky → "prima t" matchuje ✓).
+
+- [x] Zmena: súhrnná tabuľka — zľava zobrazená bez % — 29.5.2026
+      Dôvod: % zľavy sa počíta len z ceny produktu (nie príplatkov), ale v tabulke je viditeľná
+      celková cena vrátane príplatkov → % vizuálne nesedí. Zobrazujeme len "Zľava — X.XX €".
+      Fix (templates/ponuka.html): odstránené {{ zlava_percent_disp }}% z riadku zľavy.
+
 ## 📋 Nové úlohy (poradie záväzné)
 
 ### 1. ✅ BUG: poznámka — stratené riadkovanie
