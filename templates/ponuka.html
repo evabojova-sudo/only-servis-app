@@ -221,9 +221,9 @@
   {% elif polozky %}
   <tr>
     <td class="tbl-th">Produkt</td>
-    {% if ma_popis_col %}<td class="tbl-th">Miestnosť</td>{% endif %}
-    {% if ma_rozmery_col %}<td class="tbl-th-r">Rozmery</td>{% endif %}
-    <td class="tbl-th-r">Cena/ks</td>
+    {% if ma_popis_col %}<td class="tbl-th" style="width:27%;">Miestnosť</td>{% endif %}
+    {% if ma_rozmery_col %}<td class="tbl-th-r" style="width:17%;">Rozmery</td>{% endif %}
+    <td class="tbl-th-r" style="width:13%;">Cena/ks</td>
   </tr>
   {% for p in polozky %}
   <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}">
