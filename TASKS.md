@@ -20,6 +20,19 @@
       Fix: pridané pole priplatky_v_cene (frontend sleduje sumu extrahovaných príplatkov),
       pdf_generator.py prepočítava suhrn_bez_dph a CELKOVÚ CENU S DPH správne.
 
+- [x] Bug: sieť CN (s36, ROLO DS) zobrazovala komponentovú tabuľku — 29.5.2026
+      Fix A (pdf_generator.py): je_komponenty závisí od sirka_cm v polozky, nie od typ_produktu.
+      Fix B (main.py): extraction prompt — typ_produktu sa extrahuje IBA z tabuľky, nie zo suffixu CN čísla.
+
+- [x] Bug: servisné CNy (MAX21, DS servis) zobrazovali produktovú tabuľku — 29.5.2026
+      Fix: je_servis detekcia podľa typ_vyrobku v polozky má prednosť pred je_komponenty.
+
+- [x] Bug: Dveřní EXTRA matchovala okenne_siete namiesto dverne_siete — 29.5.2026
+      Fix: odstránené príliš generické "extra" z okenne_siete, pridané "dveřní"/"dveřní extra" do dverne_siete.
+
+- [x] Bug: príplatková tabuľka servisných CNov bola užšia — 29.5.2026
+      Fix: col_count=7 pre je_servis (7 stĺpcov), col_count=6 pre je_komponenty (6 stĺpcov).
+
 ## 📋 Nové úlohy (poradie záväzné)
 
 ### 1. ✅ BUG: poznámka — stratené riadkovanie
@@ -261,15 +274,25 @@ Implementovať až keď bude jasné:
         latkove_tienenie_detail.jpg
       Komponenty nemajú obrázok (príliš široká škála produktov).
 
-## ✅ Dokončené (29.5.2026 — refaktor PRODUKT_MAPA)
+## ✅ Dokončené (29.5.2026 — servisné CNy + bugy siete)
+
+- [x] NOVÁ FUNKCIONALITA: servisná tabuľka pre Climax O24 servis CNy — 29.5.2026
+      Detekcia: je_servis = polozky majú typ_vyrobku pole
+      Extrakcia: typ_vyrobku, vyrobok, oprava_1/2/3, pocet_ks, cena_ks, cena_riadok
+      Template: nová tabuľka Č.|Typ výrobku|Výrobok|Popis opravy|Ks|Cena/ks|Cena
+      Foto/popis produktu sa pre servisné CNy NEzobrazuje
+      page-break-inside: avoid na riadkoch servisnej tabuľky
+
 - [x] PRODUKT_MAPA prepracovaná z listu tuplov na dict (klucove_slova / nazov / obrazok / popis) — 29.5.2026
 - [x] Kľúčové slová aktualizované podľa reálnych Climax kódov z CN PDF — 29.5.2026
       Vonkajšie žalúzie: pridané T-80, C-80 (+ VENTAL, CC), C-60, F-80, EXT-50, PROTAL
       Rolety, siete, markízy, vnútorné žalúzie: nahradené generické slová reálnymi kódmi
+      ROLO DS, s36, s25: pridané do okenne_siete / dverne_siete
+      dveřní, dveřní extra: pridané do dverne_siete (oprava Dveřní EXTRA)
 - [x] Oprava popis pre dverne_siete — starý generický text nahradený textom z DOCX — 29.5.2026
-      (PLISE a ostatné dverné siete teraz zobrazujú správny Romanový text)
 - [x] Pridané chýbajúce kategórie markizy_gardena a pergoly_vitalia s textami z DOCX — 29.5.2026
-      Kľúčové slová: "gardena" → markizy_gardena, "vitalia" → pergoly_vitalia
+- [x] Odstránené DB ukladanie z /process — 29.5.2026 (úloha 9A)
+- [x] Produktová tabuľka: explicitné % šírky stĺpcov (Rozmery 17%, Cena/ks 13%) — 29.5.2026
 
 ## ✅ Dokončené
 - [x] Fáza 1 — POST /extract-pdf (Claude API extrakcia z PDF)
