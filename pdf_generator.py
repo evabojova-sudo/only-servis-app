@@ -99,13 +99,17 @@ PRODUKT_MAPA = {
             "ps r1", "ps r2", "dverní", "dverni",
         ],
         "popis": (
-            "Posuvné dverné siete umožňujú pohodlný prechod bez použitia rúk. "
-            "Automatické zatváranie zabraňuje prieniku hmyzu. Vhodné pre balkónové aj vstupné dvere.\n"
-            "- Pohodlný prechod bez použitia rúk – automatické zatváranie po každom prechode\n"
-            "- Spoľahlivá ochrana pred hmyzom pri otvorených dverách\n"
-            "- Hliníkový rám vo farbách RAL – farebne zladiteľný s dverami alebo fasádou\n"
-            "- Vhodné pre balkónové, terasové aj vstupné dvere\n"
-            "Záruka 4 roky. Vhodné pre plastové, hliníkové aj drevené dvere."
+            "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
+            "Nekazí výhľad, ľahko sa udržujú a sú vhodné pre všetky typy okien aj dverí. "
+            "V ponuke sú pevné, rolovacie, dverné, posuvné aj plisé varianty pre každý typ otvoru.\n"
+            "- Spoľahlivo bránia vstupu hmyzu do interiéru – pokojný spánok bez komárov a mušiek\n"
+            "- Špeciálna protipylová sieťovina – ideálna pre alergikov na peľ\n"
+            "- Neblokujú výhľad ani prúdenie vzduchu – okno funguje bežným spôsobom\n"
+            "- Rolovacie varianty sa rýchlo stiahnu do boxu, keď sieť nepotrebujete\n"
+            "- Dverná sieť s magnetom a samozatváracím systémom – praktická pri rušných vstupoch\n"
+            "- Možnosť dvierok pre psa alebo mačku – špeciálny priechod priamo v dvernej sieti\n"
+            "- Hliníkový rám vo farbách RAL – farebne zladiteľný s oknami alebo fasádou\n"
+            "Záruka 4 roky. Vhodné pre plastové, hliníkové aj drevené okná a dvere."
         ),
     },
     "markizy": {
