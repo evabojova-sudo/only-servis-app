@@ -119,7 +119,7 @@ PRODUKT_MAPA = {
     "markizy": {
         "nazov": "Markízy",
         "obrazok": "markizy.jpg",
-        "klucove_slova": ["prima t", "prima box", "noveta", "kaseta", "klasik"],
+        "klucove_slova": ["prima t", "primat", "prima box", "primabox", "noveta", "kaseta", "klasik"],
         "popis": (
             "Markíza je najrýchlejší spôsob, ako si na terase alebo balkóne vytvoriť tienistý kút. "
             "Chráni pred priamym slnkom, zabraňuje prehrievaniu interiéru a predlžuje životnosť záhradného nábytku. "

@@ -62,7 +62,7 @@ Polia ktoré musíš extrahovať:
   "KOMPONENTOVA" — tabuľka má stĺpce Číslo komponenty / Název / Počet / Jednotka — zoznam komponentov
   "SERVISNA" — tabuľka má stĺpce Typ výrobku / Výrobek / ks / oprava 1/2/3 — servisné práce
 - typ_produktu: závisí od typ_cn:
-  Pre "PRODUKTOVA" CN: ak tabuľka obsahuje explicitný kód alebo typ produktu (napr. "Z-90-NOVAL", "Dveřní EXTRA"), extrahuj ten. Inak extrahuj suffix z čísla nabídky — časť za menom zákazníka (napr. "29052026_Kruzel_s36" → "s36", "29052026_Kmetova_PS_Z" → "PS_Z", "29052026_Tothova_PS Z" → "PS Z", "29052026_Zoldova_DS_EXTRA_v2" → "DS_EXTRA"; ignoruj verziový suffix _v2/_v3).
+  Pre "PRODUKTOVA" CN: ak tabuľka obsahuje stĺpec "Typ markýzy", "Typ" alebo iný stĺpec s explicitným názvom/kódom produktu (napr. "Prima T", "Z-90-NOVAL", "Dveřní EXTRA", "18 IDX domykač"), extrahuj hodnotu z tohto stĺpca. Inak extrahuj suffix z čísla nabídky — časť za menom zákazníka (napr. "29052026_Kruzel_s36" → "s36", "29052026_Kmetova_PS_Z" → "PS_Z", "29052026_Tothova_PS Z" → "PS Z", "29052026_Zoldova_DS_EXTRA_v2" → "DS_EXTRA"; ignoruj verziový suffix _v2/_v3).
   Pre "KOMPONENTOVA" alebo "SERVISNA" CN: vráť null.
 - pocet_ks: počet kusov (integer)
 - rozmer_sirka_cm: šírka v cm (number alebo null)
