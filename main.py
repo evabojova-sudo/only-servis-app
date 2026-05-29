@@ -57,7 +57,13 @@ Polia ktoré musíš extrahovať:
 - zakaznik_meno: priezvisko alebo meno zákazníka
 - zakaznik_mesto: mesto zákazníka
 - datum_ponuky: dátum ponuky vo formáte DD.MM.YYYY
-- typ_produktu: kód produktu z tabuľky (napr. "Z-90-NOVAL", "Dveřní EXTRA"). Extrahuj IBA ak je explicitne uvedený v tabuľke ako kód alebo typ výrobku. Ak tabuľka neobsahuje stĺpec s kódom produktu, vráť null. NIKDY neextrahuj typ_produktu zo suffixu čísla nabídky.
+- typ_cn: Identifikuj typ cenové nabídky podľa štruktúry hlavnej tabuľky. Vráť jednu z hodnôt:
+  "PRODUKTOVA" — tabuľka má stĺpce Šířka (cm) a Výška (cm) — siete alebo tienenie na mieru s rozmermi
+  "KOMPONENTOVA" — tabuľka má stĺpce Číslo komponenty / Název / Počet / Jednotka — zoznam komponentov
+  "SERVISNA" — tabuľka má stĺpce Typ výrobku / Výrobek / ks / oprava 1/2/3 — servisné práce
+- typ_produktu: závisí od typ_cn:
+  Pre "PRODUKTOVA" CN: ak tabuľka obsahuje explicitný kód alebo typ produktu (napr. "Z-90-NOVAL", "Dveřní EXTRA"), extrahuj ten. Inak extrahuj suffix z čísla nabídky — časť za menom zákazníka (napr. "29052026_Kruzel_s36" → "s36", "29052026_Kmetova_PS_Z" → "PS_Z", "29052026_Tothova_PS Z" → "PS Z", "29052026_Zoldova_DS_EXTRA_v2" → "DS_EXTRA"; ignoruj verziový suffix _v2/_v3).
+  Pre "KOMPONENTOVA" alebo "SERVISNA" CN: vráť null.
 - pocet_ks: počet kusov (integer)
 - rozmer_sirka_cm: šírka v cm (number alebo null)
 - rozmer_vyska_cm: výška v cm (number alebo null)

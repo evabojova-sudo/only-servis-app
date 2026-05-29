@@ -24,6 +24,16 @@
       Fix A (pdf_generator.py): je_komponenty závisí od sirka_cm v polozky, nie od typ_produktu.
       Fix B (main.py): extraction prompt — typ_produktu sa extrahuje IBA z tabuľky, nie zo suffixu CN čísla.
 
+- [x] Bug: s36 / PS_Z / ROLO DS — žiadny obrázok ani popis produktu v PDF — 29.5.2026
+      Príčina: pre sieťové CNy (s36, PS_Z, ROLO DS) tabuľka neobsahuje stĺpec "kód produktu",
+      takže typ_produktu bol null → zisti_produkt() vrátila prázdne hodnoty.
+      Oprava (main.py): nové pole typ_cn (PRODUKTOVA/KOMPONENTOVA/SERVISNA) + pre PRODUKTOVA CNy
+      extrahuj typ_produktu zo suffixu čísla nabídky (napr. "s36", "PS_Z", "DS_EXTRA"), keď
+      tabuľka neobsahuje explicitný kód.
+      Oprava (pdf_generator.py): CN typ detekcia cez typ_cn (primárne) + fallback na polozky štruktúru.
+      Normalizácia podčiarkovníkov: "PS_Z" → "ps z" pre keyword matching.
+      Nové kľúčové slová v dverne_siete: "ps z", "ps r", "ds extra".
+
 - [x] Bug: servisné CNy (MAX21, DS servis) zobrazovali produktovú tabuľku — 29.5.2026
       Fix: je_servis detekcia podľa typ_vyrobku v polozky má prednosť pred je_komponenty.
 

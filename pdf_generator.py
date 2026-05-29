@@ -97,9 +97,10 @@ PRODUKT_MAPA = {
         "obrazok": "dverne_siete.jpg",
         "klucove_slova": [
             "plisé", "plise", "posuvná", "posuvna",
-            "ps r1", "ps r2", "dverní", "dverni",
+            "ps r1", "ps r2", "ps z", "ps r",
+            "dverní", "dverni",
             "dveřní", "dverní extra", "dveřní extra",
-            "rolo ds", "rolo dveřní", "rolo dverni",
+            "ds extra", "rolo ds", "rolo dveřní", "rolo dverni",
         ],
         "popis": (
             "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
@@ -249,7 +250,7 @@ PRODUKT_MAPA = {
 def zisti_produkt(typ_produktu: str) -> tuple[str, str | None, str | None, str]:
     if not typ_produktu:
         return "", None, None, ""
-    tp = typ_produktu.lower()
+    tp = typ_produktu.lower().replace("_", " ")
     for produkt in PRODUKT_MAPA.values():
         if any(k.lower() in tp for k in produkt["klucove_slova"]):
             fotka = produkt["obrazok"]
@@ -298,12 +299,23 @@ def generuj_pdf(data: dict) -> bytes:
     priplatky_suma = sum(p.get("suma", 0) for p in priplatky)
 
     polozky = data.get("polozky") or []
-    je_servis = bool(polozky) and any(p.get("typ_vyrobku") for p in polozky)
-    je_komponenty = (
-        bool(polozky)
-        and not any(p.get("sirka_cm") for p in polozky)
-        and not je_servis
-    )
+    typ_cn = (data.get("typ_cn") or "").upper()
+    # Primárna detekcia: explicitné pole typ_cn z extrakcie
+    # Fallback: štruktúra polozky (pre staršie dáta bez typ_cn)
+    if typ_cn == "SERVISNA":
+        je_servis = True
+        je_komponenty = False
+    elif typ_cn == "KOMPONENTOVA":
+        je_servis = False
+        je_komponenty = True
+    else:
+        # typ_cn == "PRODUKTOVA" alebo prázdne
+        je_servis = bool(polozky) and any(p.get("typ_vyrobku") for p in polozky)
+        je_komponenty = (
+            bool(polozky)
+            and not any(p.get("sirka_cm") for p in polozky)
+            and not je_servis
+        )
     ma_popis_col = any(p.get("popis") for p in polozky)
     ma_rozmery_col = any(p.get("sirka_cm") for p in polozky)
     col_count = (2 + (1 if ma_popis_col else 0) + (1 if ma_rozmery_col else 0)) if polozky else 6
