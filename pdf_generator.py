@@ -307,8 +307,10 @@ def generuj_pdf(data: dict) -> bytes:
     ma_popis_col = any(p.get("popis") for p in polozky)
     ma_rozmery_col = any(p.get("sirka_cm") for p in polozky)
     col_count = (2 + (1 if ma_popis_col else 0) + (1 if ma_rozmery_col else 0)) if polozky else 6
-    if je_komponenty or je_servis:
-        col_count = 6
+    if je_servis:
+        col_count = 7  # Č. + Typ výrobku + Výrobok + Popis opravy + Ks + Cena/ks + Cena
+    elif je_komponenty:
+        col_count = 6  # Č. + Názov + Počet + Jedn. + Cena/ks + Cena za riadok
 
     rozmery = ""
     s, v = data.get("rozmer_sirka_cm"), data.get("rozmer_vyska_cm")
