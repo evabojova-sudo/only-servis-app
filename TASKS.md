@@ -250,7 +250,25 @@ Pred touto zmenou vysvetli presne čo chceš zmeniť — je to väčší zásah 
 
 ## 🟡 V riešení
 - [ ] Obrázky produktov do PDF — 11.5.2026
-      Roman dodá JPG súbory, nahrať do static/images/produkty/ s presnými názvami (vonkajsie_zaluzie.jpg, vonkajsie_rolety.jpg, screenove_rolety.jpg, okenne_siete.jpg, dverne_siete.jpg, markizy.jpg, pergoly.jpg, vnutorne_zaluzie.jpg, latkove_tienenie.jpg, komponenty.jpg)
+      Väčšina dodaná ✅. Chýbajú (nahrať do static/images/produkty/):
+      POVINNÉ:
+        markizy_gardena.jpg
+        pergoly_vitalia.jpg
+      VOLITEĽNÉ (detail):
+        markizy_gardena_detail.jpg
+        pergoly_vitalia_detail.jpg
+        latkove_tienenie_detail.jpg
+      Komponenty nemajú obrázok (príliš široká škála produktov).
+
+## ✅ Dokončené (29.5.2026 — refaktor PRODUKT_MAPA)
+- [x] PRODUKT_MAPA prepracovaná z listu tuplov na dict (klucove_slova / nazov / obrazok / popis) — 29.5.2026
+- [x] Kľúčové slová aktualizované podľa reálnych Climax kódov z CN PDF — 29.5.2026
+      Vonkajšie žalúzie: pridané T-80, C-80 (+ VENTAL, CC), C-60, F-80, EXT-50, PROTAL
+      Rolety, siete, markízy, vnútorné žalúzie: nahradené generické slová reálnymi kódmi
+- [x] Oprava popis pre dverne_siete — starý generický text nahradený textom z DOCX — 29.5.2026
+      (PLISE a ostatné dverné siete teraz zobrazujú správny Romanový text)
+- [x] Pridané chýbajúce kategórie markizy_gardena a pergoly_vitalia s textami z DOCX — 29.5.2026
+      Kľúčové slová: "gardena" → markizy_gardena, "vitalia" → pergoly_vitalia
 
 ## ✅ Dokončené
 - [x] Fáza 1 — POST /extract-pdf (Claude API extrakcia z PDF)
