@@ -73,7 +73,7 @@ PRODUKT_MAPA = {
         "nazov": "Siete proti hmyzu (okenné)",
         "obrazok": "okenne_siete.jpg",
         "klucove_slova": [
-            "ext 16", "ext-16", "lux", "extra", "ultra",
+            "ext 16", "ext-16", "lux", "ultra",
             "rolo magnet", "síť 25", "síť 36", "sit 25", "sit 36",
             "rolo hák", "rolo klik",
             "s36", "s25",
@@ -98,6 +98,7 @@ PRODUKT_MAPA = {
         "klucove_slova": [
             "plisé", "plise", "posuvná", "posuvna",
             "ps r1", "ps r2", "dverní", "dverni",
+            "dveřní", "dverní extra", "dveřní extra",
             "rolo ds", "rolo dveřní", "rolo dverni",
         ],
         "popis": (
