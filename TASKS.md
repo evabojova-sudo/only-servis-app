@@ -236,15 +236,16 @@ V prípade otázok alebo záujmu o realizáciu ma neváhajte kontaktovať.
 Ďakujem a prajem príjemný deň.
 only servis
 
-### 9. ⬜ ARCHITEKTÚRA: databáza — ukladať až pri objednávke
-**Súbory:** main.py, databázová logika
-Aktuálny stav: systém ukladá zákazníka a ponuku do DB pri každom generovaní PDF.
-Nové správanie:
-- Pri generovaní ponuky (POST /generate-pdf, POST /process): NEukladaj nič do databázy
-- Pridaj nový endpoint POST /objednavka ktorý: prijme PDF objednávky z Climax systému, extrahuje dáta, uloží zákazníka a objednávku do DB, negeneruje PDF, neposiela email
-- Zákazník sa uloží do tabuľky zakaznici až keď príde reálna objednávka
+### 9. 🔄 ARCHITEKTÚRA: databáza — ukladať až pri objednávke
 
-Pred touto zmenou vysvetli presne čo chceš zmeniť — je to väčší zásah do architektúry.
+**9A. ✅ Odstránené DB ukladanie z /process — 29.5.2026**
+Ponuky sa viac neukladajú do DB pri generovaní PDF.
+Tabuľky zakaznici/ponuky/polozky_ponuky ostávajú pre budúci /objednavka endpoint.
+
+**9B. ⬜ Nový endpoint POST /objednavka — čaká na upresnenie**
+Implementovať až keď bude jasné:
+- Čo je vstup? (PDF z Climax? manuálne potvrdenie cez frontend? iné?)
+- Čo presne sa uloží do DB pri potvrdení objednávky?
 
 ---
 
