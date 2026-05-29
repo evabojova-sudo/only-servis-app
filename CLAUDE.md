@@ -11,6 +11,28 @@ Fáza 6 ✅ — Deploy Railway + Dockerfile funguje
 Fáza 7 ✅ — Všeobecný text (Poznámka / GDPR / DÔLEŽITÉ!) doplnený na koniec PDF (11.5.2026)
              Priečinok static/images/produkty/ vytvorený, čaká na obrázky od Romana
 
+## Zmeny z 29.5.2026 (session — typy CN, identifikácia produktov)
+- typ_cn pole v extrakcii: Claude identifikuje typ CN podľa štruktúry tabuľky:
+  "PRODUKTOVA" (má Šírka/Výška stĺpce), "KOMPONENTOVA" (Číslo/Název/Počet/Jednotka), "SERVISNA" (Typ výrobku/oprava*)
+- typ_produktu pre PRODUKTOVA CN: extrahuje zo stĺpca Typ markýzy/Typ alebo zo suffixu čísla nabídky
+  (napr. "s36", "PS_Z", "ROLO_DS") keď tabuľka nemá explicitný kód
+- pdf_generator.py: detekcia je_servis/je_komponenty cez typ_cn (primárne) + fallback na polozky štruktúru
+- zisti_produkt(): normalizácia _ → medzera ("PS_Z" → "ps z") pre keyword matching
+- Nové kľúčové slová: dverne_siete += "ps z", "ps r", "ds extra"; markizy += "primat", "primabox"
+- Súhrnná tabuľka: zľava zobrazená bez % (len suma) — % nesedí vizuálne keď základ ≠ celková cena
+- Siete proti hmyzu: jednotný názov (bez okenné/dverné), rozdielne obrázky zostávajú
+
+## Typy CN (Climax O24) — identifikačná logika
+Tri typy podľa štruktúry hlavnej tabuľky:
+1. PRODUKTOVA — tabuľka má Šírka (cm) + Výška (cm) → produktová tabuľka s rozmermi
+   typ_produktu: z tabuľky (Typ markýzy, Typ) alebo zo suffixu CN čísla
+2. KOMPONENTOVA — tabuľka má Číslo komponenty / Název / Počet / Jednotka → komponentová tabuľka
+   typ_produktu: null (žiadny obrázok/popis)
+3. SERVISNA — tabuľka má Typ výrobku / Výrobek / ks / oprava 1/2/3 → servisná tabuľka
+   typ_produktu: null (žiadny obrázok/popis)
+POZOR: typ CN sa určuje VÝHRADNE zo štruktúry tabuľky, NIE zo suffixu CN čísla ani z názvu dokumentu.
+Fallback (staré dáta bez typ_cn): je_servis ← typ_vyrobku v polozky; je_komponenty ← chýba sirka_cm
+
 ## Zmeny z 12–13.5.2026 (Roman's pripomienky)
 - Hlavička PDF: DIČ 2122069488, IČ DPH SK2122069488 — každý údaj na vlastnom riadku
 - Súhrnná tabuľka: "Spolu bez DPH" (bolo "Medzisúčet"), príplatky nie sú samostatný riadok

@@ -54,6 +54,11 @@
       celková cena vrátane príplatkov → % vizuálne nesedí. Zobrazujeme len "Zľava — X.XX €".
       Fix (templates/ponuka.html): odstránené {{ zlava_percent_disp }}% z riadku zľavy.
 
+- [x] Zmena: siete proti hmyzu — jednotný názov a oprava textu — 29.5.2026
+      Názov: "Siete proti hmyzu (okenné)"/"Siete proti hmyzu (dverné)" → "Siete proti hmyzu" (obidve).
+      Obrázky zostávajú rozdielne (okenne_siete.jpg / dverne_siete.jpg) — identifikácia funkčná.
+      Oprava textu (Eva): preklepy v popis texte opravené priamo na GitHube.
+
 ## 📋 Nové úlohy (poradie záväzné)
 
 ### 1. ✅ BUG: poznámka — stratené riadkovanie
