@@ -145,6 +145,7 @@
 </table>
 
 <!-- FOTO + NAZOV PRODUKTU -->
+{% if not je_servis %}
 {% if foto_path %}
 {% if foto_detail_path %}
 <table class="foto-wrap">
@@ -173,6 +174,7 @@
   {% if popis_closing %}<p style="margin:2pt 0 0 0; font-style:italic; font-size:10pt; color:#777;">{{ popis_closing }}</p>{% endif %}
 </div>
 {% endif %}
+{% endif %}
 
 <!-- TABULKA PRODUKTU -->
 <table class="tbl">
@@ -187,7 +189,7 @@
     <td class="tbl-th-r" style="width:12%;">Cena</td>
   </tr>
   {% for p in polozky %}
-  <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}">
+  <tr class="{{ 'row-light' if loop.index % 2 == 0 else 'row-white' }}" style="page-break-inside: avoid; break-inside: avoid;">
     <td class="tbl-td">{{ p.poradove_cislo or loop.index }}</td>
     <td class="tbl-td-b">{{ p.typ_vyrobku or '' }}</td>
     <td class="tbl-td">{{ p.vyrobok or '' }}</td>
