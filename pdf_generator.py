@@ -70,7 +70,7 @@ PRODUKT_MAPA = {
         ),
     },
     "okenne_siete": {
-        "nazov": "Siete proti hmyzu (okenné)",
+        "nazov": "Siete proti hmyzu",
         "obrazok": "okenne_siete.jpg",
         "klucove_slova": [
             "ext 16", "ext-16", "lux", "ultra",
@@ -93,7 +93,7 @@ PRODUKT_MAPA = {
         ),
     },
     "dverne_siete": {
-        "nazov": "Siete proti hmyzu (dverné)",
+        "nazov": "Siete proti hmyzu",
         "obrazok": "dverne_siete.jpg",
         "klucove_slova": [
             "plisé", "plise", "posuvná", "posuvna",
