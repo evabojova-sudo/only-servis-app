@@ -97,6 +97,7 @@ PRODUKT_MAPA = {
         "klucove_slova": [
             "plisé", "plise", "posuvná", "posuvna",
             "ps r1", "ps r2", "dverní", "dverni",
+            "rolo ds", "rolo dveřní", "rolo dverni",
         ],
         "popis": (
             "Siete proti hmyzu Climax sú nenápadná a účinná ochrana pred hmyzom a pylovými alergiami. "
