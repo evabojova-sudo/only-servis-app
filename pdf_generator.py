@@ -35,7 +35,7 @@ PRODUKT_MAPA = {
     "vonkajsie_rolety": {
         "nazov": "Vonkajšie rolety",
         "obrazok": "vonkajsie_rolety.jpg",
-        "klucove_slova": ["m 328", "m 317", "m 442", "mpvc"],
+        "klucove_slova": ["m 328", "m 317", "m 442", "mpvc", "al37", "al35", "al32", "al3"],
         "popis": (
             "Vonkajšie rolety neprepustia slnečné lúče a doprajú vám ničím nerušený spánok. "
             "Blokujú až 100 % slnečného žiarenia ešte pred sklom, čím v lete výrazne znižujú teplotu v interiéri "
