@@ -54,7 +54,7 @@ Ak pole v PDF neexistuje, vráť null.
 
 Polia ktoré musíš extrahovať:
 - cislo_ponuky: číslo ponuky (napr. "21042026_Dujnicova_Z90io")
-- zakaznik_meno: priezvisko alebo meno zákazníka
+- zakaznik_meno: priezvisko alebo meno zákazníka. Ak dokument obsahuje iba generické označenie ("klient", "zákazník", "odberateľ" alebo je prázdne), extrahuj meno z čísla ponuky — je to druhá časť za dátumom, pred typom produktu (napr. "31052026_Banicova_EXT16" → "Banicova", "21042026_Dujnicova_Z90io" → "Dujnicova").
 - zakaznik_mesto: mesto zákazníka
 - datum_ponuky: dátum ponuky vo formáte DD.MM.YYYY
 - typ_cn: Identifikuj typ cenové nabídky podľa štruktúry hlavnej tabuľky. Vráť jednu z hodnôt:
