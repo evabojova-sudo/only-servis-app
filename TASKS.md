@@ -13,6 +13,22 @@
 - [ ] Pomalé spracovanie — Roman, 7.5.2026
       (upresniť: je pomalá extrakcia PDF, generovanie, alebo celý flow?)
 
+- [x] Bug: AL37io_solar — žiadny obrázok ani popis produktu — 1.6.2026
+      Príčina: "al37" chýbalo v kľúčových slovách vonkajsie_rolety.
+      Fix (pdf_generator.py): pridané "al37", "al35", "al32", "al3".
+
+- [x] Bug: EXT16 — žiadny obrázok ani popis produktu — 1.6.2026
+      Príčina: "ext16" (bez medzery/pomlčky) chýbalo v kľúčových slovách okenne_siete.
+      Fix (pdf_generator.py): pridané "ext16".
+
+- [x] Bug: ROLO O — žiadny obrázok ani popis produktu — 1.6.2026
+      Príčina: "rolo o" (okenná rolovacia sieť) chýbalo v kľúčových slovách okenne_siete.
+      Fix (pdf_generator.py): pridané "rolo o".
+
+- [x] Bug: meno zákazníka "klient" na sieťových CN — 1.6.2026
+      Príčina: Climax sieťové CNy majú generické "klient" v poli odberateľa.
+      Fix (main.py): extraction prompt — fallback na meno zo suffixu CN čísla ak je meno generické.
+
 - [x] Bug: zisti_produkt() padá keď typ_produktu je None — 26.5.2026
       Fix: guard na začiatku funkcie, vracia bezpečné defaulty ("", None, None, "").
 
@@ -210,6 +226,7 @@ Ak extrakcia stále vracia nesprávne hodnoty, upresniť prompt ďalej.
 
 ### 7. ✅ OBSAH: záverečný text — informačné podmienky — 27.5.2026
 Hotovo: nahradený starý text (Poznámka/GDPR/DÔLEŽITÉ!) novými 8 sekciami "Informačné podmienky k cenovej ponuke". Fix page-break-after: avoid na nadpisoch sekcií.
+Aktualizácia 1.6.2026: texty skrátené podľa finálnej verzie od Romana (informacne_podmienky_cenovej_ponuky.pdf).
 **Súbor:** templates/ponuka.html
 Nahraď aktuálnu sekciu (Poznámka / GDPR / DÔLEŽITÉ!) novou samostatnou stranou s nadpisom "Informačné podmienky k cenovej ponuke" a týmto textom:
 
