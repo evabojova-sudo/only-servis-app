@@ -73,8 +73,8 @@ PRODUKT_MAPA = {
         "nazov": "Siete proti hmyzu",
         "obrazok": "okenne_siete.jpg",
         "klucove_slova": [
-            "ext 16", "ext-16", "lux", "ultra",
-            "rolo magnet", "síť 25", "síť 36", "sit 25", "sit 36",
+            "ext 16", "ext-16", "ext16", "lux", "ultra",
+            "rolo magnet", "rolo o", "síť 25", "síť 36", "sit 25", "sit 36",
             "rolo hák", "rolo klik",
             "s36", "s25",
         ],
